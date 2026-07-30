@@ -1,6 +1,8 @@
 package maisfluminense.vikkynsnorth.noticias.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -349,8 +351,8 @@ public class FeedFragment extends Fragment {
                 java.net.HttpURLConnection conn =
                         (java.net.HttpURLConnection) obj.openConnection();
                 conn.setRequestMethod("GET");
-                conn.setConnectTimeout(6000);
-                conn.setReadTimeout(6000);
+                conn.setConnectTimeout(25000);
+                conn.setReadTimeout(25000);
 
                 int responseCode = conn.getResponseCode();
                 if (responseCode == 200) {
@@ -917,12 +919,14 @@ public class FeedFragment extends Fragment {
             }
         }
         List<NewsItem> result = new ArrayList<>(bestItems.values());
-        result.sort((a, b) -> {
-            if (a.getPubDate() == null && b.getPubDate() == null) return 0;
-            if (a.getPubDate() == null) return 1;
-            if (b.getPubDate() == null) return -1;
-            return b.getPubDate().compareTo(a.getPubDate());
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            result.sort((a, b) -> {
+                if (a.getPubDate() == null && b.getPubDate() == null) return 0;
+                if (a.getPubDate() == null) return 1;
+                if (b.getPubDate() == null) return -1;
+                return b.getPubDate().compareTo(a.getPubDate());
+            });
+        }
         return result;
     }
 
