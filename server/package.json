@@ -1,0 +1,26 @@
+{
+  "name": "maisfluminense-api",
+  "version": "1.0.0",
+  "description": "API de notícias do Fluminense",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.18.1",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "2.8.5",
+    "express": "4.18.2",
+    "node-cache": "5.1.2",
+    "node-fetch": "2.7.0",
+    "rss-parser": "3.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "3.1.0"
+  }
+}

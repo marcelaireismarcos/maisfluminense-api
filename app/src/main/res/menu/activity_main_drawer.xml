@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <!-- ═══════════════════════════════════════
+         CONTEÚDO PRINCIPAL
+         ═══════════════════════════════════════ -->
+    <group android:id="@+id/group_content">
+
+        <item
+            android:id="@+id/nav_feed"
+            android:icon="@drawable/noticias_image"
+            android:title="@string/menu_feed02"
+            android:checkable="true"/>
+
+        <item
+            android:id="@+id/nav_outras"
+            android:icon="@drawable/outras_image"
+            android:title="@string/menu_outras02"
+            android:checkable="true"/>
+
+        <item
+            android:id="@+id/nav_jogos"
+            android:icon="@drawable/elenco_image"
+            android:title="@string/menu_jogos"
+            android:checkable="true"/>
+
+        <item
+            android:id="@+id/nav_classificacao"
+            android:icon="@drawable/temporada_image"
+            android:title="@string/menu_classificacao"
+            android:checkable="true"/>
+
+    </group>
+
+    <!-- ═══════════════════════════════════════
+         OUTRAS OPÇÕES
+         ═══════════════════════════════════════ -->
+    <item
+        android:id="@+id/tools"
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_09"
+                android:icon="@drawable/remove_ad"
+                android:title="@string/submenu_15"/>
+            <item
+                android:id="@+id/nav_10"
+                android:icon="@drawable/ic_notifications"
+                android:title="@string/notificacao_ativada"/>
+            <item
+                android:id="@+id/nav_11"
+                android:icon="@drawable/ic_theme_24"
+                android:title="@string/nav_tema"/>
+            <item
+                android:id="@+id/nav_04"
+                android:icon="@drawable/img_compartilhar"
+                android:title="@string/submenu_10"/>
+            <item
+                android:id="@+id/nav_05"
+                android:icon="@drawable/img_avalia"
+                android:title="@string/submenu_11"/>
+            <item
+                android:id="@+id/nav_06"
+                android:icon="@drawable/img_mais"
+                android:title="@string/submenu_12"/>
+            <item
+                android:id="@+id/nav_07"
+                android:icon="@drawable/img_email"
+                android:title="@string/submenu_13"/>
+            <item
+                android:id="@+id/nav_08"
+                android:icon="@drawable/img_not_10"
+                android:title="@string/submenu_14"/>
+        </menu>
+    </item>
+
+</menu>

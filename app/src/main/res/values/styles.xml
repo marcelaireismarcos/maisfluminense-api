@@ -1,0 +1,139 @@
+<resources>
+
+    <!-- ============================================================
+         TEMA PRINCIPAL — Light Mode (Identidade Náutico)
+         ============================================================ -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/PrimaryDarkColor</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/surface_background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <!-- Atributos Material usados nos layouts -->
+        <item name="colorSurface">@color/surface_card</item>
+        <item name="android:colorBackground">@color/surface_background</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <!-- Toolbar -->
+        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
+        <!-- Card -->
+        <item name="materialCardViewStyle">@style/AppTheme.CardView</item>
+        <!-- Ripple color vermelho suave -->
+        <item name="colorControlHighlight">#20C8102E</item>
+        <!-- Animações de window -->
+        <item name="android:windowAnimationStyle">@style/AppTheme.WindowAnimation</item>
+    </style>
+
+    <!-- Toolbar Náutico: fundo vermelho, texto e ícones brancos -->
+    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/text_on_primary</item>
+        <item name="subtitleTextColor">#CCFFFFFF</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/surface_card</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <!-- ============================================================
+         TEMA SPLASH — fundo vermelho Náutico
+         ============================================================ -->
+    <style name="AppTheme.Splash" parent="AppTheme">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+    </style>
+
+    <!-- ============================================================
+         TEXTOS ESPECIAIS
+         ============================================================ -->
+    <!-- Menu lateral: item de destaque em dourado Náutico -->
+    <style name="TextAppearance44">
+        <item name="android:textColor">#F5A623</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Chip de fonte de notícia (ex: "GE", "UOL") -->
+    <style name="AppTheme.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_source_background</item>
+        <item name="android:textColor">@color/chip_source_text</item>
+        <item name="chipStrokeColor">@color/colorPrimary</item>
+        <item name="chipStrokeWidth">1dp</item>
+    </style>
+
+    <!-- ============================================================
+         BOTÕES
+         ============================================================ -->
+    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="AppTheme.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <!-- ============================================================
+         DIALOG CUSTOMIZADO
+         ============================================================ -->
+    <style name="AppTheme.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.Button</item>
+    </style>
+
+    <!-- Legado — mantido para não quebrar código existente -->
+    <style name="AdTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/PrimaryDarkColor</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Dialog">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- ============================================================
+         NAVEGAÇÃO
+         ============================================================ -->
+    <style name="AppTheme.NavigationView">
+        <item name="android:textColorSecondary">@color/TextoHeader</item>
+    </style>
+    <!-- ============================================================
+         ANIMAÇÕES DE WINDOW
+         ============================================================ -->
+    <style name="AppTheme.WindowAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <!-- ============================================================
+         SHAPES
+         ============================================================ -->
+    <style name="ShapeAppearance.NewsThumb" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">6dp</item>
+    </style>
+
+</resources>

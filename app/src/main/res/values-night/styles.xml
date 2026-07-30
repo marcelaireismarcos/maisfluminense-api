@@ -1,0 +1,31 @@
+<resources>
+    <!-- Dark mode — herda do DayNight, só sobrescreve cores -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/PrimaryDarkColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/PrimaryDarkColor</item>
+        <item name="android:navigationBarColor">@color/surface_background</item>
+        <item name="android:windowBackground">@color/surface_background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <!-- Material surface attributes -->
+        <item name="colorSurface">@color/surface_card</item>
+        <item name="android:colorBackground">@color/surface_background</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <!-- Toolbar -->
+        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
+        <!-- Card -->
+        <item name="materialCardViewStyle">@style/AppTheme.CardView</item>
+        <item name="colorControlHighlight">#20FF6B6B</item>
+    </style>
+
+    <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/surface_card</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">1dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+</resources>

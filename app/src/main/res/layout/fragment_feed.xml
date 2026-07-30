@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
+
+    <!-- ══════════════════════════════════════════════
+         CONTEÚDO PRINCIPAL
+         ══════════════════════════════════════════════ -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Card do próximo jogo (visível apenas quando carregado) -->
+            <include layout="@layout/item_next_game_card"/>
+
+            <!-- Card de enquete da torcida (visível apenas quando carregada) -->
+            <include layout="@layout/item_poll_card"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feed_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="4dp"
+                android:paddingBottom="120dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- ══════════════════════════════════════════════
+         SHIMMER — skeleton de carregamento com animação
+         ══════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:visibility="visible">
+
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════════════
+         ESTADO DE CARREGAMENTO LENTO
+         Mostrado após 5s aguardando o servidor acordar
+         ══════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/slow_loading_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="90dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/bg_rounded_black"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:indeterminateTint="@color/white"
+            android:layout_marginEnd="10dp"
+            style="?android:attr/progressBarStyle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carregando_not"
+            android:textColor="@color/white"
+            android:textSize="13sp"/>
+
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════════════
+         ESTADO DE ERRO
+         ══════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_baseline_signal_wifi_statusbar_connected_no_internet_4_24_branco"
+            android:alpha="0.3"
+            android:contentDescription="@string/sem_conexao"/>
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/feed_error_message"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/feed_retry"
+            app:backgroundTint="@color/colorPrimary"
+            app:cornerRadius="8dp"/>
+
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════════════
+         ESTADO VAZIO
+         ══════════════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/feed_empty"
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

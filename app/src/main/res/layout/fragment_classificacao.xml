@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:attr/colorBackground">
+
+    <!-- Cabeçalho fixo da tabela -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:gravity="center_vertical">
+
+        <TextView android:layout_width="28dp" android:layout_height="wrap_content"
+            android:text="#" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold"/>
+        <View android:layout_width="28dp" android:layout_height="28dp"/><!-- logo placeholder -->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Time"
+            android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold"/>
+        <TextView android:layout_width="26dp" android:layout_height="wrap_content"
+            android:text="J" android:textColor="#CCFFFFFF" android:textSize="11sp" android:gravity="center"/>
+        <TextView android:layout_width="26dp" android:layout_height="wrap_content"
+            android:text="V" android:textColor="#CCFFFFFF" android:textSize="11sp" android:gravity="center"/>
+        <TextView android:layout_width="26dp" android:layout_height="wrap_content"
+            android:text="E" android:textColor="#CCFFFFFF" android:textSize="11sp" android:gravity="center"/>
+        <TextView android:layout_width="26dp" android:layout_height="wrap_content"
+            android:text="D" android:textColor="#CCFFFFFF" android:textSize="11sp" android:gravity="center"/>
+        <TextView android:layout_width="26dp" android:layout_height="wrap_content"
+            android:text="SG" android:textColor="#CCFFFFFF" android:textSize="11sp" android:gravity="center"/>
+        <TextView android:layout_width="30dp" android:layout_height="wrap_content"
+            android:text="Pts" android:textColor="#FFFFFF" android:textSize="12sp"
+            android:textStyle="bold" android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- Legenda de zonas -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="?attr/colorSurface">
+
+        <View android:layout_width="10dp" android:layout_height="10dp"
+            android:background="@color/zone_promotion_dark"
+            android:layout_marginEnd="4dp" android:layout_gravity="center_vertical"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="Promoção à Série A"
+            android:textSize="11sp" android:textColor="@color/text_secondary"/>
+
+        <View android:layout_width="10dp" android:layout_height="10dp"
+            android:background="@color/zone_relegation_dark"
+            android:layout_marginEnd="4dp" android:layout_gravity="center_vertical"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Rebaixamento" android:textSize="11sp" android:textColor="@color/text_secondary"/>
+    </LinearLayout>
+
+    <!-- SwipeRefresh + RecyclerView -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_class"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/classificacao_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="80dp"
+            android:clipToPadding="false"
+            android:visibility="gone"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- Shimmer -->
+    <LinearLayout
+        android:id="@+id/shimmer_layout_class"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+        <include layout="@layout/item_shimmer_card"/>
+    </LinearLayout>
+
+    <!-- Erro -->
+    <LinearLayout
+        android:id="@+id/error_layout_class"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:id="@+id/error_message_class"
+            android:text="@string/feed_error_message"
+            android:textColor="@color/text_secondary" android:gravity="center"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_retry_class"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/feed_retry"
+            app:backgroundTint="@color/colorPrimary"/>
+    </LinearLayout>
+
+</LinearLayout>

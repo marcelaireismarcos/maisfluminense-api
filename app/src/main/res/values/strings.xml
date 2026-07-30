@@ -1,0 +1,346 @@
+<resources>
+    <string name="app_name">Mais Fluminense</string>
+    <string name="meu_pacote">maisfluminense</string>
+    <string name="id_onesignal">c4ef839d-ba48-49ed-9d36-9311c1887176</string>
+    <string name="com_conexao">Conectado à internet.</string>
+    <string name="sem_conexao">SEM CONEXÃO À INTERNET!</string>
+    <string name="action_settings">Compartilhar app</string>
+    <string name="carregando_not">Carregando notícias&#8230;</string>
+    <string name="submenu_15">Ativar \'Sem Anúncios\'</string>
+    <string name="nao_oficial">App não oficial da torcida tricolor</string>
+    <!-- ══════════════════════════════════════════════
+         API FOOTBALL (RapidAPI)
+         IMPORTANTE: substitua pelo valor real obtido em rapidapi.com
+         API: API-Football v3 — Plano Free: 100 req/dia
+         ══════════════════════════════════════════════ -->
+    <string name="api_football_key">c66e9443ecmsh3df10527aebe7ebp1bda59jsn9b0c4ace3bc9</string>
+
+    <!-- ══════════════════════════════════════════════
+         API DE NOTÍCIAS PRÓPRIA (servidor Node.js)
+         Substitua pela URL real após o deploy no Render.com ou outro hosting.
+         Enquanto não tiver servidor, deixe vazio — o app usa RSS como fallback.
+         ══════════════════════════════════════════════ -->
+    <string name="api_noticias_url">https://maisfluminense-api.onrender.com</string>
+
+    <string name="splash_tit">Fique por dentro de tudo do Fluminense</string>
+
+    <!-- ══════════════════════════════════════════════
+         FEED DE NOTÍCIAS
+         ══════════════════════════════════════════════ -->
+    <string name="feed_error_message">Não foi possível carregar as notícias.\nVerifique sua conexão e tente novamente.</string>
+    <string name="feed_retry">Tentar novamente</string>
+    <string name="feed_empty">Nenhuma notícia encontrada no momento.</string>
+    <string name="feed_loading">Buscando notícias…</string>
+    <string name="feed_title">Notícias do Fluminense</string>
+    <string name="feed_swipe_hint">Puxe para atualizar</string>
+
+    <!-- ══════════════════════════════════════════════
+         NOVOS ITENS DE MENU
+         ══════════════════════════════════════════════ -->
+    <string name="menu_feed">Notícias</string>
+    <string name="menu_feed02">Notícias do Fluminense</string>
+    <string name="menu_outras">Outras</string>
+    <string name="menu_outras02">Outras Notícias</string>
+    <string name="menu_classificacao">Classificação</string>
+    <string name="menu_jogos">Jogos</string>
+
+
+
+    <string name="privacy_settings">Opções de privacidade</string>
+    <string name="rewarded_dialog_title">Ficar 3 min sem anúncios</string>
+    <string name="rewarded_dialog_title_format">Ficar %s sem anúncios</string>
+    <string name="rewarded_dialog_message">Assista a um vídeo para remover todos os anúncios do app por 3 minutos. Uma pausa para você ler com mais tranquilidade.</string>
+    <string name="rewarded_dialog_message_format">Assista a um vídeo para remover todos os anúncios do app por %s. Uma pausa para você ler com mais tranquilidade.</string>
+    <string name="rewarded_dialog_cta">Assistir</string>
+    <string name="rewarded_loading_message">Estamos carregando o anúncio premiado. Tente novamente em alguns instantes.</string>
+    <string name="rewarded_success_message">Pronto! Você ficou 3 minutos sem anúncios. Aproveite a leitura.</string>
+    <string name="rewarded_not_completed_message">O anúncio foi fechado antes do fim, então o período sem anúncios não foi ativado.</string>
+    <string name="rewarded_already_active">Você já está sem anúncios por mais %1$s.</string>
+    <string name="ads_unavailable_message">Os anúncios não estão disponíveis no momento por causa das preferências de privacidade.</string>
+    <string name="rewarded_promo_badge">Vantagem</string>
+    <string name="rewarded_promo_active_badge">Sem anúncios ativo</string>
+    <string name="rewarded_promo_subtitle">Assista a 1 anúncio premiado e ganhe 3 minutos de navegação sem anúncios.</string>
+    <string name="rewarded_promo_active_message">Sem anúncios por mais %1$s. Aproveite sua leitura com menos interrupções.</string>
+    <string name="rewarded_promo_cta">Ativar agora</string>
+    <string name="rewarded_promo_dismiss_now">Retirar agora</string>
+    <string name="rewarded_promo_nao_mostrar_isso">Não Mostrar</string>
+    <string name="rewarded_promo_hide_forever">Não visualizar mais</string>
+    <string name="rewarded_promo_close">Ocultar aviso</string>
+
+    <!-- ══════════════════════════════════════════════
+         PLANO FIDELIDADE
+         ══════════════════════════════════════════════ -->
+    <string name="fidelity_level_iniciante">Iniciante</string>
+    <string name="fidelity_level_bronze">Bronze</string>
+    <string name="fidelity_level_prata">Prata</string>
+    <string name="fidelity_level_ouro">Ouro</string>
+    <string name="fidelity_level_diamante">Diamante</string>
+    <string name="fidelity_promo_iniciante">Assista 1 anúncio e ganhe 3 min sem anúncios</string>
+    <string name="fidelity_promo_bronze">Assista 1 anúncio e ganhe 4 min sem anúncios 🥉</string>
+    <string name="fidelity_promo_prata">Assista 1 anúncio e ganhe 5 min sem anúncios 🥈</string>
+    <string name="fidelity_promo_ouro">Assista 1 anúncio e ganhe 6 min sem anúncios 🥇</string>
+    <string name="fidelity_promo_diamante">Assista 1 anúncio e ganhe 20 min sem anúncios 💎</string>
+
+    <!-- ══════════════════════════════════════════════
+         FIDELITY — Progresso visível e dialog informativo
+         ══════════════════════════════════════════════ -->
+    <string name="fidelity_badge_desc">Seu nível: %s. Toque para ver detalhes.</string>
+    <string name="fidelity_progress_format">%d/%d anúncios</string>
+    <string name="fidelity_progress_format_with_level">%d/%d · %s</string>
+    <string name="fidelity_remaining_to_next">Faltam %d para %s</string>
+    <string name="fidelity_max_level_reached">🏆 Nível máximo alcançado!</string>
+    <string name="fidelity_total_watched">Total: %d anúncios assistidos</string>
+    <string name="fidelity_dialog_title">🏆 Plano Fidelidade</string>
+    <string name="fidelity_dialog_description">Assista anúncios para subir de nível e ganhar mais tempo sem anúncios em cada recompensa!</string>
+    <string name="fidelity_dialog_your_level_tag">← Seu nível</string>
+    <string name="fidelity_dialog_col_level">Nível</string>
+    <string name="fidelity_dialog_col_ads">Anúncios</string>
+    <string name="fidelity_dialog_col_benefit">Ganho</string>
+    <string name="fidelity_dialog_close">Fechar</string>
+
+    <!-- ═══ NAV HEADER — status de fidelidade ═══ -->
+    <string name="nav_header_fidelity_progress">%s %s · %d/%d</string>
+    <string name="nav_header_fidelity_max">%s %s · 🏆 Máximo!</string>
+    <string name="nav_header_fidelity_no_progress">⚡ Iniciante — Comece assistindo um anúncio</string>
+
+    <string name="rewarded_promo_dismiss_dialog_title">Ocultar este aviso</string>
+    <string name="rewarded_promo_dismiss_dialog_message">Você pode retirar este aviso apenas por agora ou pedir para não exibi-lo novamente na tela. A opção de 3 minutos sem anúncios continuará disponível no menu lateral.</string>
+
+    <!-- ══════════════════════════════════════════════
+         NOTIFICAÇÕES
+         ══════════════════════════════════════════════ -->
+    <string name="submenu_notificacoes">Notificações</string>
+    <string name="notificacao_ativada">Notificação Ativada</string>
+    <string name="notificacao_desativada">Notificação Desativada</string>
+    <string name="notificacao_ativada_msg">Você receberá notificações sobre as últimas notícias do Flamengo.</string>
+    <string name="notificacao_desativada_msg">Você não receberá mais notificações do aplicativo.</string>
+    <string name="notificacao_toggle_title">Notificações</string>
+    <string name="notificacao_toggle_on">Notificações ativadas</string>
+    <string name="notificacao_toggle_off">Notificações desativadas</string>
+
+    <!-- ══════════════════════════════════════════════
+         WEBVIEW
+         ══════════════════════════════════════════════ -->
+    <string name="webview_loading">Carregando página…</string>
+    <string name="webview_error_title">Não foi possível carregar a página</string>
+    <string name="webview_error_message">Verifique sua conexão com a internet e tente novamente.</string>
+    <string name="webview_error_http">O servidor retornou um erro inesperado.</string>
+    <string name="webview_error_ssl">A página não pôde ser aberta por um problema de segurança (SSL).</string>
+    <string name="webview_error_timeout">A página está demorando muito para carregar. Verifique sua conexão.</string>
+    <string name="webview_error_http_404">Página não encontrada (erro 404).</string>
+    <string name="webview_error_http_500">O servidor está temporariamente indisponível (erro 500).</string>
+    <string name="webview_error_ssl_dialog_title">Aviso de segurança</string>
+    <string name="webview_error_ssl_dialog_message">Esta página apresenta um problema de segurança (certificado SSL inválido). Pode ser uma tentativa de golpe ou apenas um site com certificado desatualizado. Deseja continuar mesmo assim?</string>
+    <string name="webview_error_ssl_proceed">Continuar mesmo assim</string>
+    <string name="webview_error_ssl_go_back">Voltar</string>
+
+    <!-- ══════════════════════════════════════════════
+         WEBVIEW — Melhorias de timeout e retry
+         ══════════════════════════════════════════════ -->
+    <string name="webview_open_in_browser">Abrir no navegador</string>
+    <string name="webview_wait_longer">Aguardar mais</string>
+    <string name="webview_auto_retry_message">A página não carregou na primeira tentativa. Tentando novamente…</string>
+    <string name="webview_error_after_retries">Não foi possível carregar a página após várias tentativas. Tente novamente ou abra no navegador.</string>
+    <string name="webview_loading_notification">A conexão está lenta. Aguarde mais um pouco…</string>
+
+    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="navigation_drawer_close">Fechar navigation drawer</string>
+
+    <string name="submenu_01">História</string>
+    <string name="linksubmenu_01">https://www.fluminense.com.br/sobre/a-historia</string>
+
+    <string name="submenu_02">Notícias</string>
+    <string name="linksubmenu_02">https://www.uol.com.br/esporte/futebol/times/fluminense/</string>
+
+    <string name="submenu_04">Próximos Jogos</string>
+    <string name="linksubmenu_04">https://www.placardefutebol.com.br/time/fluminense/proximos-jogos</string>
+
+    <string name="submenu_05">Classificação</string>
+    <string name="linksubmenu_05">https://www.goal.com/br/equipe/fluminense/tabela-de-classifica%C3%A7%C3%A3o/2ldx5vhhqfz2rllkgp7wpa744</string>
+
+    <string name="submenu_06">Titulos</string>
+    <string name="linksubmenu_06">https://www.fluminense.com.br/sobre/principais-titulos</string>
+
+    <string name="submenu_07">Transferências no Mercado da Bola</string>
+    <string name="transf_01">Transferências no Mercado da Bola - Globo Esporte</string>
+    <string name="transf_02">Transferências no Mercado da Bola - UOL</string>
+    <string name="linksubmenu_07_01">https://interativos.globoesporte.globo.com/futebol/mercado/vai-e-vem/vai-e-vem-do-mercado-2019</string>
+    <string name="linksubmenu_07_02">https://www.uol.com.br/esporte/futebol/mercado-da-bola/#/clube/fluminense</string>
+
+
+    <string name="submenu_08">Ídolos</string>
+    <string name="linksubmenu_08">https://www.fluminense.com.br/sobre/idolos</string>
+
+    <string name="submenu_09">Outras Notícias</string>
+    <string name="linksubmenu_09">https://ge.globo.com/</string>
+
+    <string name="submenu_10">Compartilhe</string>
+    <string name="submenu_11">Avalie este app</string>
+    <string name="submenu_12">Outros Apps&#8230;</string>
+    <string name="submenu_13">Fale Conosco</string>
+    <string name="submenu_14">Política de Privacidade</string>
+    <string name="linkpoliticprivacy">https://www.vikkynsnorth.com.br/privacy-policy-app-mais-fluminense.html</string>
+
+    <string name="confirmasaida">Toque novamente para sair</string>
+
+    <string name="maisnoticias_titulo">Escolha a fonte das Notícias</string>
+    <string name="maisnoticias01">Globo Esporte</string>
+    <string name="link_not_01">https://ge.globo.com/futebol/times/fluminense/</string>
+
+    <string name="maisnoticias02">UOL</string>
+    <string name="link_not_02">https://www.uol.com.br/esporte/futebol/times/fluminense/</string>
+
+    <string name="maisnoticias03">ESPN</string>
+    <string name="link_not_03">https://www.espn.com.br/futebol/time/_/id/3445/fluminense</string>
+
+    <string name="maisnoticias04">90min</string>
+    <string name="link_not_04">https://www.90min.com/pt-BR/teams/fluminense</string>
+
+    <string name="maisnoticias05">Explosao Tricolor</string>
+    <string name="link_not_05">https://explosaotricolor.com.br/</string>
+
+    <string name="maisnoticias06">Gazeta Esportiva</string>
+    <string name="link_not_06">https://www.gazetaesportiva.com/times/fluminense/</string>
+
+    <string name="maisappstitulo">Outros Aplicativos</string>
+
+    <string name="maisapps01">Figurinhas do Fluminense</string>
+    <string name="maisappstexto01">Figurinhas para WhatsApp com temas do Fluminense. Baixe e divirta-se com seus amigos e grupos.\n&#8230;\n</string>
+    <string name="linkapp01">fluminense.figurinhas.vikkynsnorth</string>
+
+    <string name="maisapps02">Fluminense Papel de Parede</string>
+    <string name="maisappstexto02">Papéis de parede com temas do Fluminense para personalizar a tela do seu celular\n&#8230;\n</string>
+    <string name="linkapp02">fluminense.papeldeparede.vikkynsnorth</string>
+
+    <string name="maisapps03">OrçaPrime</string>
+    <string name="maisappstexto03">Chega de planilha, papel ou mensagem no WhatsApp. O app OrçaPrime é completo para autônomos, pequenas empresas e prestadores de serviço que precisam criar e gerenciar orçamentos de forma rápida, organizada e com visual profissional. Crie, gerencie e envie orçamentos profissionais em PDF com facilidade.\n&#8230;\n</string>
+    <string name="linkapp03">orcaprime.negocio.vk</string>
+
+    <string name="maisapps04">iBolso</string>
+    <string name="maisappstexto04">Assuma o controle das suas finanças pessoais e organize receitas, despesas e dívidas. E conte também com a ajuda da Inteligência Artificial para deixar o seu financeiro sempre positivo.\n&#8230;\n</string>
+    <string name="linkapp04">ibolso.financas.vk</string>
+
+    <string name="maisapps05">Lembretes Diários</string>
+    <string name="maisappstexto05">Nunca mais esqueça o que realmente importa, o app que literalmente fala (notificações com voz) com você nos momentos certos!\n&#8230;\n</string>
+    <string name="linkapp05">dailymindit.lembretes.various</string>
+
+    <string name="maisapps06">Sorteio de Números e Nomes</string>
+    <string name="maisappstexto06">Com o aplicativo Sorteio de Números e Nomes, você cria seus grupos de intervalos de números ou grupos de nomes e já pode começar a sortear, seja para loterias diversas, algum evento entre amigos/família ou algum sorteio/jogo que você imaginar/criar.\n\nSe você utiliza aqueles papéizinhos chatos para efetuar sorteios de números ou nomes aleatórios, esse aplicativo é pra você: fique livre daquele papelzinho chato e modernize seu sorteio.\n&#8230;\n</string>
+    <string name="linkapp06">sorteio.numeros.vikkynsnorth</string>
+
+    <string name="maisapps07">Consórcio Entre Amigos</string>
+    <string name="maisappstexto07">Pra você que tem um pequeno comércio, que é empreendedor ou mesmo aquela pessoa que pensa em criar um consórcio (qualquer tipo: eletrodoméstico, produtos em geral, carro, moto e outros), o Aplicativo Consórcio Entre Amigos foi desenvolvido pra você.\n&#8230;\n</string>
+    <string name="linkapp07">entreamigos.consorcio.vikkynsnorth</string>
+
+    <string name="maisapps08">Sorteio Amigo Secreto</string>
+    <string name="maisappstexto08">Com o aplicativo Sorteio Amigo Secreto, você cria sua lista de amigos e faz o sorteio do Amigo Secreto sem nenhum problema.\nFique livre daquele papelzinho chato e modernize sua confraternização.\n&#8230;\n</string>
+    <string name="linkapp08">sorteio.amigosecreto.vikkynsnorth</string>
+
+    <string name="maisapps09">PapeRock</string>
+    <string name="maisappstexto09">Personalize a tela do seu celular com Papéis de Parede (Imagem e Gifs Interativos) com temas super interessantes para fãs do Rock n Roll.\n&#8230;\n</string>
+    <string name="linkapp09">paperock.wallpaper.vikkynsnorthdev</string>
+
+    <string name="maisapps10">Previsão do Tempo</string>
+    <string name="maisappstexto10">Previsão do tempo sempre atualizada de sua localidade atual.\n&#8230;\n</string>
+    <string name="linkapp10">predictingweather.vikkyns.northdev</string>
+
+    <string name="maisapps11">Sorteio de Times da Pelada</string>
+    <string name="maisappstexto11">Acabou o problema na hora de dividir os Times da sua Pelada. Basta cadastrar todos os jogadores participantes de cada Pelada, atribuir o nível (classificação) de cada jogador (de 1 até 5 estrelas), informar se o jogador é goleiro ou não e pronto.!!!\nBasta fazer o sorteio dos times da Pelada, sempre com times equilibrados e sem aquela famosa \'panelinha\'.\n&#8230;\n</string>
+    <string name="linkapp11">sorteiotimes.dapelada.vikkynsnorth</string>
+
+    <string name="maisapps12">Com Amor Papel de Parede</string>
+    <string name="maisappstexto12">Personalize a tela do seu celular com Papéis de Parede (Imagem e Gifs Interativos) com temas super bonitos do Amor. Você poderá editar (add fotos da sua galeria, escrever texto e muito mais)  e compartilhar os temas com seu namorado(a) e\/ou amigos (exceto Gifs Interativos).\n&#8230;\n</string>
+    <string name="linkapp12">withlove.wallpaper.vikkynsnorth</string>
+
+    <string name="maisapps13">Amor Sem Fim Figurinhas</string>
+    <string name="maisappstexto13">Figurinhas para WhatsApp com temas do amor. Demonstre o quanto ama àquelas pessoas especiais, com figurinhas super lindas (inclusive, figurinhas animadas).\n&#8230;\n</string>
+    <string name="linkapp13">amorsemfim.figurinhas.vikkynsnorth</string>
+
+    <string name="maisapps14">Papel de Parede Abençoado</string>
+    <string name="maisappstexto14">Personalize a tela do seu celular com lindos temas (imagens e gifs Interativos) religiosos.\n&#8230;\n</string>
+    <string name="linkapp14">blessed.wallpaper.vikkynsnorthdev</string>
+
+    <string name="maisapps15">Figurinhas Abençoadas</string>
+    <string name="maisappstexto15">Figurinhas para WhatsApp com temas religiosos, abençôe suas conversas com seus amigos e grupos.\n&#8230;\n</string>
+    <string name="linkapp15">abencoadas.figurinhas.vikkynsnorth</string>
+
+    <string name="maisapps16">MillaCorn</string>
+    <string name="maisappstexto16">Personalize a tela do seu celular com lindos temas de  Unicórnios.\n&#8230;\n</string>
+    <string name="linkapp16">millacorn.wallpaper.vikkynsnorthdev</string>
+
+    <string name="maisapps17">Figurinhas do Brasileirão</string>
+    <string name="maisappstexto17">Figurinhas para WhatsApp super divertidas do Brasileirão, Séries A e B, para se divertir com seus amigos e grupos.\n&#8230;\n</string>
+    <string name="linkapp17">brasileiraogeral.figurinhas.vikkynsnorthdev</string>
+
+    <string name="msg_update">Há uma nova versão do aplicativo na PlayStore.</string>
+    <string name="update">ATUALIZAR</string>
+    <string name="cancela">Cancelar</string>
+
+    <string name="link_texto">Aplicativo com tudo sobre o Fluminense.\nNotícias, Classificação dos campeonatos, elenco atual, jogos do clube e muito mais.\n\n</string>
+    <string name="link_via">Compartilhar via</string>
+
+    <string name="textosubmenu">Mais Fluminense</string>
+
+    <string name="news01">Notícias</string>
+    <string name="news02">Buscando&#8230;</string>
+    <string name="net_conection">Sem conexão com a Internet!</string>
+
+    <string name="nome_app">Mais Fluminense</string>
+    <string name="versao_app">Versão Gratuita</string>
+    <string name="desc_fontes_titulo">Opções</string>
+    <string name="desc_outros">Outros</string>
+
+    <string name="notification_channel_id">default</string>
+
+    <string name="no_conexao_int">O Aplicativo não funciona sem conexão à internet. Verifique sua conexão!</string>
+
+    <string name="unsubscribed">Unsubscribed from news topic</string>
+
+    <string name="link_compartilhar">https://noticiasmaisatuais.page.link/FluMinEnsE</string>
+
+    <string name="email">vikkynsnorth@gmail.com</string>
+    <string name="subject">Referente ao aplicativo Mais Fluminense</string>
+    <string name="texto_email">Digite seu texto aqui</string>
+    <string name="send_email_com">Enviar email com</string>
+    <string name="app_send_email">Não existe nenhum aplicativo para o envio de emails instalado.</string>
+
+    <string name="texto_chamar_ad">Aguarde por favor&#8230;</string>
+    <string name="msg_saida">Deseja realmente sair do aplicativo?&#160;</string>
+    <string name="bt_sim">Sim</string>
+    <string name="bt_nao">Não</string>
+    <string name="hello_blank_fragment">:: Escolha a Fonte de Informações abaixo ::</string>
+
+    <string name="more_menu" translatable="false">More</string>
+
+    <!-- ══════════════════════════════════════════════
+         TEMA (Claro / Escuro / Sistema)
+         ══════════════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════════
+         ENQUETE DA TORCIDA
+         ══════════════════════════════════════════════ -->
+    <string name="poll_header">ENQUETE DA TORCIDA</string>
+    <string name="poll_vote_cta">Votar</string>
+    <string name="poll_voted_badge">✅ Votou</string>
+    <string name="poll_total_votes">🗳️ %d votos</string>
+    <string name="poll_error_message">Erro ao votar. Toque para tentar novamente.</string>
+    <string name="poll_vote_success">Voto registrado! 🎉</string>
+    <string name="poll_no_active">Nenhuma enquete ativa no momento.</string>
+
+    <!-- ══════════════════════════════════════════════
+         NEXT GAME CARD
+         ══════════════════════════════════════════════ -->
+    <string name="ng_home_team_desc">Time da casa</string>
+    <string name="ng_away_team_desc">Time visitante</string>
+    <string name="ng_upcoming">PRÓXIMO JOGO</string>
+    <string name="ng_live">AO VIVO</string>
+    <string name="ng_finished">ENCERRADO</string>
+    <string name="ng_countdown_days">%dd %dh %dm %ds</string>
+    <string name="ng_countdown_hours">%dh %dm %ds</string>
+    <string name="ng_error">Não foi possível carregar o próximo jogo.</string>
+
+    <string name="nav_tema">Tema</string>
+    <string name="theme_dialog_title">Escolher tema</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Escuro</string>
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/poll_option_frame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+
+    <!-- Barra de progresso do resultado (só visível após votar) -->
+    <View
+        android:id="@+id/poll_option_bar"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/chip_source_background"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <!-- Botão da opção -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/poll_option_btn"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:textSize="13sp"
+        android:textColor="@color/text_primary"
+        android:gravity="start|center_vertical"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:cornerRadius="8dp"
+        app:strokeWidth="0.5dp"
+        app:strokeColor="@color/surface_divider"
+        app:backgroundTint="@color/surface_card"
+        app:rippleColor="@color/colorPrimary"
+        style="@style/Widget.Material3.Button.TextButton"
+        tools:text="Gabriel Barbosa (Gabigol)"/>
+
+</FrameLayout>

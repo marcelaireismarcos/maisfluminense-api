@@ -1,0 +1,53 @@
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="true">
+        <shape
+            android:shape="oval">
+            <solid
+                android:color="@color/botao_sim"/>
+            <corners
+                android:radius="5dp"/>
+
+            <stroke
+                android:width="5dp"
+                android:color="@color/transp_papel" />
+
+            <size
+                android:width="60dp"
+                android:height="60dp"/>
+
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp"/>
+        </shape>
+    </item>
+
+    <item
+        android:state_enabled="false">
+        <shape
+            android:shape="oval">
+            <solid
+                android:color="@color/botao_desativado"/>
+            <corners
+                android:radius="5dp"/>
+
+            <stroke
+                android:width="5dp"
+                android:color="@color/transp_papel" />
+
+            <size
+                android:width="60dp"
+                android:height="60dp"/>
+
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp"/>
+        </shape>
+    </item>
+
+</selector>

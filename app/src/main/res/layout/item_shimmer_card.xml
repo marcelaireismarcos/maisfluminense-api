@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    item_shimmer_card.xml — placeholder animado exibido durante o carregamento do feed.
+    Simula a estrutura do item_news_card.xml com retângulos cinzas.
+-->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="?attr/colorSurface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Chip placeholder -->
+        <View
+            android:layout_width="80dp"
+            android:layout_height="22dp"
+            android:background="@drawable/shimmer_rounded"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Linhas de texto placeholder -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="8dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:background="@drawable/shimmer_rounded"
+                    android:layout_marginBottom="6dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:background="@drawable/shimmer_rounded"
+                    android:layout_marginBottom="6dp"/>
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="14dp"
+                    android:background="@drawable/shimmer_rounded"/>
+
+            </LinearLayout>
+
+            <!-- Imagem placeholder -->
+            <View
+                android:layout_width="90dp"
+                android:layout_height="70dp"
+                android:background="@drawable/shimmer_rounded"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/poll_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/card_margin_horizontal"
+    android:layout_marginEnd="@dimen/card_margin_horizontal"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    android:visibility="gone"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/fundo_not"
+    app:strokeColor="@color/colorPrimary"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ═══ CABEÇALHO: "📊 ENQUETE DA TORCIDA" ═══ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📊"
+                android:textSize="16sp"
+                android:layout_marginEnd="6dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/poll_header"
+                android:textColor="@color/colorAccent"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"/>
+
+            <!-- Badge "Votou" -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/poll_voted_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:textSize="9sp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:chipBackgroundColor="@color/colorAccent"
+                app:chipMinHeight="20dp"
+                app:ensureMinTouchTargetSize="false"
+                app:chipCornerRadius="10dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                tools:text="✅ Votou"
+                tools:visibility="visible"/>
+
+        </LinearLayout>
+
+        <!-- ═══ PERGUNTA ═══ -->
+        <TextView
+            android:id="@+id/poll_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:lineSpacingExtra="3dp"
+            android:layout_marginBottom="14dp"
+            tools:text="Qual contratação você mais quer para o Fluminense?"/>
+
+        <!-- ═══ OPÇÕES (preenchidas dinamicamente) ═══ -->
+        <LinearLayout
+            android:id="@+id/poll_options_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+        <!-- ═══ RODAPÉ: total de votos ═══ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/poll_total_votes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                tools:text="🗳️ 1.234 votos"/>
+
+            <TextView
+                android:id="@+id/poll_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/error_red"
+                android:textSize="11sp"
+                android:visibility="gone"
+                tools:text="Erro ao votar. Toque para tentar novamente."/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

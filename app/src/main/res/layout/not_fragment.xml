@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="maisfluminense.vikkynsnorth.noticias.fragment.Not01_Fragment">
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Barra de progresso real 0-100% no topo da página (estilo navegador) -->
+    <ProgressBar
+        android:id="@+id/webview_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="top"
+        android:max="100"
+        android:progressTint="@color/colorPrimary"
+        android:progressBackgroundTint="@color/progress_background"
+        android:visibility="gone" />
+
+    <!-- Loading central para a CARGA INICIAL da página -->
+    <FrameLayout
+        android:id="@+id/initial_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/initial_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/initial_loading_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            android:text="@string/webview_loading"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+    </FrameLayout>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         OVERLAY DE ERRO — exibido quando a página falha ao carregar
+         ═══════════════════════════════════════════════════════════ -->
+    <FrameLayout
+        android:id="@+id/error_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <TextView
+                android:id="@+id/error_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="36sp"
+                android:text="&#x26A0;"
+                android:textColor="@color/error_red" />
+
+            <TextView
+                android:id="@+id/error_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="@string/webview_error_title"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/error_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/webview_error_message"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:maxLines="4" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/error_retry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:minWidth="160dp"
+                android:text="@string/feed_retry"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_rewarded_cta"
+                app:backgroundTint="@null"
+                app:rippleColor="@android:color/transparent" />
+
+            <LinearLayout
+                android:id="@+id/error_secondary_actions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/open_in_browser_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingHorizontal="12dp"
+                    android:text="@string/webview_open_in_browser"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/wait_longer_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingHorizontal="12dp"
+                    android:text="@string/webview_wait_longer"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- FAB de compartilhar — movable, aparece ao navegar para sub-página -->
+    <maisfluminense.vikkynsnorth.noticias.MovableFloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/btcompartilhar"
+        android:visibility="invisible"
+        android:contentDescription="@string/action_settings"
+        app:backgroundTint="@color/black"
+        app:rippleColor="@color/warning_yellow"
+        app:tint="@color/white"/>
+
+</FrameLayout>

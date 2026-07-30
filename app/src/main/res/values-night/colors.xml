@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ═══════════════════════════════════════
+         DARK MODE — Identidade Fluminense
+         ═══════════════════════════════════════ -->
+
+    <!-- Marca — grená escuro quase preto, accent verde brilhante -->
+    <color name="colorPrimary">#1A0A10</color>
+    <color name="PrimaryDarkColor">#0F0508</color>
+    <color name="colorAccent">#00A875</color>
+
+    <!-- Superfícies -->
+    <color name="surface_background">#121212</color>
+    <color name="surface_card">#1E1E1E</color>
+    <color name="surface_divider">#2C2C2C</color>
+
+    <!-- Texto -->
+    <color name="text_primary">#EFEFEF</color>
+    <color name="text_secondary">#9E9E9E</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="text_link">#FF6B6B</color>
+
+    <!-- Notícias -->
+    <color name="not_titulo">#EFEFEF</color>
+    <color name="not_url">#00A875</color>
+
+    <!-- UI Elements -->
+    <color name="cor_fundo_mensagem">#1E1E1E</color>
+    <color name="progress">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="TextoHeader">#FFFFFF</color>
+
+    <!-- Feed / Cards -->
+    <color name="fundo_not">#2A2A2A</color>
+    <color name="chip_source_background">#2C2C2C</color>
+    <color name="chip_source_text">#FF8A8A</color>
+    <color name="feed_date_text">#757575</color>
+    <color name="feed_shimmer_base">#2C2C2C</color>
+    <color name="feed_shimmer_highlight">#3C3C3C</color>
+
+    <!-- Tabela de classificação -->
+    <color name="zone_promotion">#1B3A1D</color>
+    <color name="zone_promotion_dark">#4CAF50</color>
+    <color name="zone_relegation">#3A1A1A</color>
+    <color name="zone_relegation_dark">#EF5350</color>
+
+    <!-- Anúncios nativos -->
+    <color name="ad_background_color">#1E1E1E</color>
+    <color name="ad_heading_color">#EFEFEF</color>
+    <color name="ad_body_text_color">#9E9E9E</color>
+
+    <!-- Mensagens -->
+    <color name="cor_fundo_message_ok">#004D30</color>
+    <color name="cor_fundo_message_erro">#4A0D18</color>
+
+    <!-- Bottom Nav e menus -->
+    <color name="MenuColor01">#1A0A10</color>
+    <color name="TitMenuColor01">#FFFFFF</color>
+    <color name="MenuColor02">#004D30</color>
+    <color name="TitMenuColor02">#FFFFFF</color>
+
+    <!-- Nav Ripple -->
+    <color name="nav_ripple_color">#40BDBDBD</color>
+
+    <!-- Shimmer drawable background -->
+    <color name="shimmer_color">#2C2C2C</color>
+</resources>

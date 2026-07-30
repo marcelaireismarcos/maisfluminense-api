@@ -1,0 +1,390 @@
+{
+  "project_info": {
+    "project_number": "960187620678",
+    "project_id": "appandroid02-791d4",
+    "storage_bucket": "appandroid02-791d4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:13ff38fe031502aa79d947",
+        "android_client_info": {
+          "package_name": "atleticomg.figurinhas.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:38c06f513528923979d947",
+        "android_client_info": {
+          "package_name": "botafogo.figurinhas.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:e74b5589c204418f79d947",
+        "android_client_info": {
+          "package_name": "ceara.figurinhas.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:760cdce5cc63f6fd79d947",
+        "android_client_info": {
+          "package_name": "colorado.figurinhas.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:9ef5acfe4d46027e79d947",
+        "android_client_info": {
+          "package_name": "cruzeiro.figurinhas.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:3dba3460c9f0c84e79d947",
+        "android_client_info": {
+          "package_name": "fortaleza.figurinhas.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:1fe37d2a4e2b298779d947",
+        "android_client_info": {
+          "package_name": "maisatleticomg.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:b3cd809d850d91df79d947",
+        "android_client_info": {
+          "package_name": "maisbahia.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:c4d38612ac8487dd79d947",
+        "android_client_info": {
+          "package_name": "maiscrbrasil.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:c6c5c105a4324c6179d947",
+        "android_client_info": {
+          "package_name": "maiscruzeiro.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:102ca93f67e94dd579d947",
+        "android_client_info": {
+          "package_name": "maiscsa.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:f5fdac858e3442d179d947",
+        "android_client_info": {
+          "package_name": "maisfluminense.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:a743cdcf6096d15279d947",
+        "android_client_info": {
+          "package_name": "maisgoias.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:cb50e9e11dd39ebf79d947",
+        "android_client_info": {
+          "package_name": "maispalmeiras.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:9fb7a92c2b5e6e1c79d947",
+        "android_client_info": {
+          "package_name": "maispaysandu.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:247fabd5fc9367f379d947",
+        "android_client_info": {
+          "package_name": "maissantos.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:5bbd74c8df0f06e679d947",
+        "android_client_info": {
+          "package_name": "maisvasco.vikkynsnorth.noticias"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:3c56fc7cb291a00579d947",
+        "android_client_info": {
+          "package_name": "palmeiras.figurinhas.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:f768c9cb6ff559bf79d947",
+        "android_client_info": {
+          "package_name": "santos.figurinhas.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960187620678:android:3e4f656a07c2ae7479d947",
+        "android_client_info": {
+          "package_name": "sorteio.amigosecreto.vikkynsnorth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSZMIxlfzuaoLbV2aR22znjeCBh8GCJcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

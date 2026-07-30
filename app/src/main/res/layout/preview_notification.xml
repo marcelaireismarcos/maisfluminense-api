@@ -1,0 +1,53 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:gravity="center"
+    android:background="@drawable/def_color_04">
+
+    <LinearLayout
+        android:id="@+id/image_info_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/image_post_set"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:padding="03dp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitXY"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/titulo_notifica"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_info_wrap"
+        android:paddingStart="03dp"
+        android:paddingEnd="03dp"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="@color/not_titulo"
+        android:text=""
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/text_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titulo_notifica"
+        android:paddingTop="03dp"
+        android:paddingStart="03dp"
+        android:paddingEnd="03dp"
+        android:textSize="9sp"
+        android:textStyle="italic"
+        android:textColor="@color/not_titulo"
+        android:text=""
+        tools:ignore="SmallSp" />
+</RelativeLayout>

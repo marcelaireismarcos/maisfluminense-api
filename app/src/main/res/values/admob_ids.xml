@@ -1,0 +1,31 @@
+<resources>
+    <!-- AdMob -->
+    <string name="id_abertura">ca-app-pub-6264727904542057/1547595006</string>
+    <string name="id_bandeira">ca-app-pub-6264727904542057/6720671267</string>
+    <string name="id_inter01">ca-app-pub-6264727904542057/9217814422</string>
+    <string name="id_inter02">ca-app-pub-6264727904542057/1628126687</string>
+    <string name="id_inter03">ca-app-pub-6264727904542057/2860676673</string>
+    <string name="id_inter04">ca-app-pub-6264727904542057/5407589592</string>
+    <string name="id_Native01">ca-app-pub-6264727904542057/7106635251</string>
+    <string name="id_Native02">ca-app-pub-6264727904542057/6835172517</string>
+    <string name="id_Native03">ca-app-pub-6264727904542057/1935747783</string>
+    <string name="id_Native04">ca-app-pub-6264727904542057/1779835113</string>
+    <string name="id_recompensa01">ca-app-pub-6264727904542057/4596021986</string>
+
+    <string name="id_identifica">ca-app-pub-6264727904542057~4328449826</string> -->
+
+    <!-- Testes AdMob
+    <string name="id_abertura">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="id_bandeira">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="id_inter01">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="id_inter02">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="id_inter03">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="id_inter04">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="id_Native01">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="id_Native02">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="id_Native03">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="id_Native04">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="id_recompensa01">ca-app-pub-3940256099942544/5224354917</string>
+
+    <string name="id_identifica">ca-app-pub-3940256099942544~3347511713</string> -->
+</resources>

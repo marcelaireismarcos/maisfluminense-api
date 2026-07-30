@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#9E1B32</color>
+    <color name="PrimaryDarkColor">#7A1527</color>
+    <color name="cor_fundo_mensagem">#525252</color>
+    <color name="MenuColor01">#9E1B32</color>
+    <color name="TitMenuColor01">#ffffff</color>
+    <color name="MenuColor02">#006442</color>
+    <color name="TitMenuColor02">#ffffff</color>
+    <color name="TextoHeader">#dfdfdf</color>
+    <color name="colorAccent">#006442</color>
+    <color name="progress">#fff</color>
+    <color name="not_titulo">#000000</color>
+    <color name="not_url">#006442</color>
+    <color name="transparent">#000000FF</color>
+
+    <color name="cor_fundo_message_ok">#006442</color>
+    <color name="cor_fundo_message_erro">#9E1B32</color>
+
+    <color name="cor_linha">#9E1B32</color>
+    <color name="cor_linha_popup">#709E1B32</color>
+    <color name="botao_nao">#9E1B32</color>
+    <color name="botao_sim">#006442</color>
+    <color name="transp_papel">#75ffffff</color>
+    <color name="botao_desativado">#b8b6b5</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <!--    Native Ad Colors-->
+    <color name="ad_attribution_background_color">#006442</color>
+    <color name="ad_background_color">#FFFFF0</color>
+    <color name="ad_heading_color">#9E1B32</color>
+    <color name="ad_body_text_color">#696969</color>
+    <color name="add_button_color">#9E1B32</color>
+    <color name="add_button_text_color">#ffffff</color>
+
+    <color name="fundo_not">#FFF5F5</color>
+    <color name="vermelho">#9E1B32</color>
+
+    <color name="success_green">#01A368</color>
+    <color name="error_red">#C0392B</color>
+    <color name="info_blue">#000000</color>
+    <color name="warning_yellow">#F39C12</color>
+
+    <!-- === SURFACE COLORS (Light Mode) === -->
+    <color name="surface_background">#FFFFFF</color>
+    <color name="surface_card">#F5F5F5</color>
+    <color name="surface_divider">#E0E0E0</color>
+
+    <!-- === TEXT COLORS (Light Mode) === -->
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#616161</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    <color name="text_link">#9E1B32</color>
+
+    <!-- === SURFACE COLORS (Dark Mode) === -->
+    <color name="surface_background_dark">#121212</color>
+    <color name="surface_card_dark">#1E1E1E</color>
+    <color name="surface_divider_dark">#2C2C2C</color>
+
+    <!-- === TEXT COLORS (Dark Mode) === -->
+    <color name="text_primary_dark">#EFEFEF</color>
+    <color name="text_secondary_dark">#9E9E9E</color>
+    <color name="text_link_dark">#FF6B6B</color>
+
+
+    <color name="semi_transparent_black">#80000000</color>
+    <color name="semi_transparent_white">#75FFFFFF</color>
+
+    <!-- === FEED / NEWS CARD COLORS === -->
+    <color name="chip_source_background">#FFF0F0</color>
+    <color name="chip_source_text">#9E1B32</color>
+    <color name="feed_date_text">#9E9E9E</color>
+    <color name="feed_shimmer_base">#E0E0E0</color>
+    <color name="feed_shimmer_highlight">#F5F5F5</color>
+
+    <!-- === TABELA DE CLASSIFICAÇÃO === -->
+    <color name="zone_promotion">#E8F5E9</color>
+    <color name="zone_promotion_dark">#2E7D32</color>
+    <color name="zone_relegation">#FFEBEE</color>
+    <color name="zone_relegation_dark">#C62828</color>
+    <color name="rewarded_promo_stroke">#4DFFFFFF</color>
+    <color name="rewarded_promo_text_secondary">#F4D9D9</color>
+    <color name="rewarded_promo_badge_background">#26FFFFFF</color>
+
+    <color name="bottom_nav">#d8d8d8</color>
+    <!-- === NAVIGATION VIEW RIPPLE === -->
+    <color name="nav_ripple_color">#40BDBDBD</color>
+
+    <color name="corbotao01">#915500</color>
+    <color name="corbotao02">#ed8500</color>
+
+    <!-- === WEBVIEW PROGRESS BAR === -->
+    <color name="progress_background">#409E1B32</color>
+</resources>

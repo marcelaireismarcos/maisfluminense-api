@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_feed"
+        android:icon="@drawable/noticias_image"
+        android:title="@string/menu_feed"/>
+
+    <item
+        android:id="@+id/nav_outras"
+        android:icon="@drawable/outras_image"
+        android:title="@string/menu_outras"/>
+
+    <item
+        android:id="@+id/nav_jogos"
+        android:icon="@drawable/elenco_image"
+        android:title="@string/menu_jogos"/>
+
+    <item
+        android:id="@+id/nav_classificacao"
+        android:icon="@drawable/temporada_image"
+        android:title="@string/menu_classificacao"/>
+
+</menu>

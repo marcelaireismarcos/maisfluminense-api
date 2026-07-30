@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:orientation="horizontal"
+    android:paddingStart="0dp"
+    android:paddingEnd="8dp"
+    android:gravity="center_vertical">
+
+    <!-- Indicador de zona (strip lateral colorida) -->
+    <View
+        android:id="@+id/zone_indicator"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="4dp"/>
+
+    <!-- Posição -->
+    <TextView
+        android:id="@+id/standing_rank"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/text_primary"
+        android:gravity="center"
+        android:textStyle="bold"/>
+
+    <!-- Logo do time -->
+    <ImageView
+        android:id="@+id/standing_logo"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="6dp"
+        android:contentDescription="@string/app_name"/>
+
+    <!-- Nome do time -->
+    <TextView
+        android:id="@+id/standing_team_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp"
+        android:textColor="@color/text_primary"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <!-- J -->
+    <TextView
+        android:id="@+id/standing_played"
+        android:layout_width="26dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"/>
+
+    <!-- V -->
+    <TextView
+        android:id="@+id/standing_wins"
+        android:layout_width="26dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"/>
+
+    <!-- E -->
+    <TextView
+        android:id="@+id/standing_draws"
+        android:layout_width="26dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"/>
+
+    <!-- D -->
+    <TextView
+        android:id="@+id/standing_loses"
+        android:layout_width="26dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"/>
+
+    <!-- SG -->
+    <TextView
+        android:id="@+id/standing_gd"
+        android:layout_width="26dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"/>
+
+    <!-- Pts -->
+    <TextView
+        android:id="@+id/standing_points"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+</LinearLayout>

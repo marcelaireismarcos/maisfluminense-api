@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface_background"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="24dp">
+
+    <!-- Handle indicador -->
+    <View
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/circular"
+        android:alpha="0.3" />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/bs_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:text="@string/fidelity_dialog_title"
+        android:textColor="@color/text_primary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Tempo restante (aparece apenas durante ad-free) -->
+    <TextView
+        android:id="@+id/bs_remaining_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_link"
+        android:visibility="gone"
+        tools:text="⏱  2min 30s  ·  🥇 Ouro"
+        tools:visibility="visible" />
+
+    <!-- Divisor -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/surface_divider" />
+
+    <!-- Descrição -->
+    <TextView
+        android:id="@+id/bs_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center_horizontal"
+        android:text="@string/fidelity_dialog_description"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <!-- Container dos níveis (populado dinamicamente) -->
+    <LinearLayout
+        android:id="@+id/bs_levels_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp" />
+
+    <!-- Divisor -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@color/surface_divider" />
+
+    <!-- Progresso -->
+    <TextView
+        android:id="@+id/bs_progress_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:text="Total: 21 anúncios assistidos"
+        tools:visibility="visible" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <View
+            android:id="@+id/bs_progress_bar_bg"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/circular"
+            android:alpha="0.2" />
+
+        <View
+            android:id="@+id/bs_progress_bar_fill"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:background="@drawable/circular"
+            android:visibility="gone"
+            tools:background="@color/text_link"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/bs_progress_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="21/50 · Faltam 29 para Ouro"
+        tools:visibility="visible" />
+
+    <!-- Botão Fechar -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bs_close_button"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:text="@string/fidelity_dialog_close"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        app:cornerRadius="22dp"
+        app:backgroundTint="@color/surface_card" />
+
+</LinearLayout>
