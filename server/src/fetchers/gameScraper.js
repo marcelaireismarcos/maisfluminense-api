@@ -37,6 +37,20 @@ async function fetchNextGame() {
 /**
  * Scrape do placardefutebol.com.br.
  * URL: https://www.placardefutebol.com.br/time/fluminense/proximos-jogos
+ *
+ * Estrutura atual do HTML (jul/2026):
+ *   <a class="match__lg" href="...">
+ *     <div class="match__lg_card">
+ *       <div class="match__lg_card--league">Campeonato Brasileiro</div>
+ *       <div class="match__lg_card--ht-name text">Fluminense</div>
+ *       <div class="match__lg_card--at-name text">Palmeiras</div>
+ *       <div class="match__lg_card--ht-logo">...</div>
+ *       <div class="match__lg_card--at-logo">...</div>
+ *       <div class="match__lg_card--info">
+ *         <div class="match__lg_card--datetime">SÁB, 15/08<br>16:30</div>
+ *       </div>
+ *     </div>
+ *   </a>
  */
 async function scrapePlacarFutebol() {
   const url = 'https://www.placardefutebol.com.br/time/fluminense/proximos-jogos';
@@ -46,184 +60,102 @@ async function scrapePlacarFutebol() {
   });
   const $ = cheerio.load(html);
 
-  // ─── Estratégia: procurar por linhas/divs que contenham info de jogo ───
-  // placardefutebol geralmente lista jogos em <tr> dentro de <table>,
-  // ou em <div> com classes como .partida, .jogo, etc.
-  // Cada linha tem: time-casa, placar (ou "-"), time-fora, data, horário
+  // ─── Busca TODOS os cards de jogos ───
+  const games = [];
 
-  let bestMatch = null;
+  $('a.match__lg').each((_, el) => {
+    const card = $(el).find('> .match__lg_card');
+    if (!card.length) return;
 
-  // 1. Busca por linhas de tabela e divs de partida
-  $('tr, div[class*="partida"], div[class*="jogo"], div[class*="game"], li[class*="match"]').each((_, el) => {
-    const text = $(el).text().trim();
-    if (!text || text.length < 10) return;
+    const league    = card.find('.match__lg_card--league').text().trim();
+    const homeName  = card.find('.match__lg_card--ht-name').text().trim();
+    const awayName  = card.find('.match__lg_card--at-name').text().trim();
+    const dateTimeRaw = card.find('.match__lg_card--datetime').text().trim();
 
-    const lower = text.toLowerCase();
-    // Precisa mencionar Fluminense
-    if (!lower.includes('fluminense') && !lower.includes('flu') && !lower.includes('nense')) return;
+    // Verifica se Fluminense está envolvido
+    const homeIsFlu = /fluminense/i.test(homeName);
+    const awayIsFlu = /fluminense/i.test(awayName);
+    if (!homeIsFlu && !awayIsFlu) return;
 
-    // Precisa ter indício de data (dd/mm) ou horário (hh:mm)
-    const hasDate = /\d{1,2}\/\d{1,2}/.test(text) || /\d{1,2}:\d{2}/.test(text);
-    if (!hasDate) return;
+    // Extrai data e horário do texto "SÁB, 15/08\n16:30"
+    let dateStr = '';
+    let timeStr = '';
+    const lines = dateTimeRaw.split('\n').map(l => l.trim()).filter(l => l);
 
-    // Extrai as informações
-    const parsed = parseGameText(text);
-    if (parsed) {
-      bestMatch = parsed;
-      return false; // break do each
+    for (const line of lines) {
+      // Procura padrão dd/mm
+      const dMatch = line.match(/(\d{1,2})\/(\d{1,2})/);
+      if (dMatch) {
+        const day = dMatch[1].padStart(2, '0');
+        const month = dMatch[2].padStart(2, '0');
+        dateStr = `2026-${month}-${day}`;
+      }
+      // Procura horário hh:mm
+      const tMatch = line.match(/(\d{1,2}:\d{2})/);
+      if (tMatch) {
+        timeStr = tMatch[1];
+      }
     }
+
+    // Timestamp
+    let timestamp = 0;
+    if (dateStr && timeStr) {
+      timestamp = Math.floor(new Date(`${dateStr}T${timeStr}:00`).getTime() / 1000);
+    }
+
+    // Mapa de competições para normalizar o nome
+    const compMap = {
+      'copa do brasil': 'Copa do Brasil',
+      'campeonato brasileiro': 'Campeonato Brasileiro',
+      'copa libertadores': 'Copa Libertadores',
+      'copa sul-americana': 'Copa Sul-Americana',
+      'campeonato carioca': 'Campeonato Carioca',
+      'recopa sul-americana': 'Recopa Sul-Americana',
+      'mundial de clubes': 'Mundial de Clubes',
+    };
+    const leagueLower = league.toLowerCase().trim();
+    const competition = compMap[leagueLower] || league;
+
+    games.push({
+      source: 'placardefutebol',
+      homeTeam: homeName,
+      awayTeam: awayName,
+      competition: competition,
+      round: '',
+      venue: '',
+      city: '',
+      date: dateStr,
+      time: timeStr,
+      timestamp: timestamp,
+      status: 'NS',
+      homeGoals: null,
+      awayGoals: null,
+    });
   });
 
-  if (bestMatch) {
-    console.log('[gameScraper] Jogo encontrado via tabela:', bestMatch.awayTeam);
-    return bestMatch;
+  if (games.length === 0) {
+    console.log('[gameScraper] Nenhum jogo encontrado');
+    return null;
   }
 
-  // 2. Fallback: busca por texto puro em toda a página
-  const bodyText = $('body').text();
-  const lines = bodyText.split('\n').map(l => l.trim()).filter(l => l.length > 10);
+  // Filtra apenas jogos FUTUROS (timestamp > agora) e ordena pelo mais próximo
+  const now = Math.floor(Date.now() / 1000);
+  const futureGames = games
+    .filter(g => g.timestamp === 0 || g.timestamp > now)
+    .sort((a, b) => (a.timestamp || Infinity) - (b.timestamp || Infinity));
 
-  for (const line of lines) {
-    const lower = line.toLowerCase();
-    if (!lower.includes('fluminense') && !lower.includes('flu') && !lower.includes('nense')) continue;
-    const hasDate = /\d{1,2}\/\d{1,2}/.test(line) || /\d{1,2}:\d{2}/.test(line);
-    if (!hasDate) continue;
-
-    const parsed = parseGameText(line);
-    if (parsed) {
-      bestMatch = parsed;
-      break;
-    }
+  if (futureGames.length === 0) {
+    console.log('[gameScraper] Nenhum jogo futuro encontrado');
+    return null;
   }
 
-  if (bestMatch) {
-    console.log('[gameScraper] Jogo encontrado via texto:', bestMatch.awayTeam);
-    return bestMatch;
-  }
+  const nextGame = futureGames[0];
+  console.log('[gameScraper] Próximo jogo:',
+    nextGame.homeTeam, 'x', nextGame.awayTeam,
+    '-', nextGame.date, nextGame.time,
+    '-', nextGame.competition);
 
-  console.log('[gameScraper] Nenhum jogo futuro encontrado');
-  return null;
-}
-
-/**
- * Extrai informações estruturadas de um texto de jogo.
- * Exemplos de formato esperado:
- *   "Fluminense x Palmeiras - 15/07 21:00 - Maracanã - Brasileirão"
- *   "14/07 - Fluminense 2 x 1 Vasco - Maracanã"
- *   "Fluminense vs Corinthians | 20/07/2026 16:00 | Neo Química Arena"
- */
-function parseGameText(text) {
-  const clean = text.replace(/\s+/g, ' ').trim();
-
-  // ─── Data ───
-  let dateStr = '';
-  const dateMatch = clean.match(/(\d{1,2})\/(\d{1,2})(?:\/(\d{4}))?/);
-  if (dateMatch) {
-    const day = dateMatch[1].padStart(2, '0');
-    const month = dateMatch[2].padStart(2, '0');
-    const year = dateMatch[3] || '2026';
-    dateStr = `${year}-${month}-${day}`;
-  }
-
-  // ─── Horário ───
-  let timeStr = '';
-  const timeMatch = clean.match(/(\d{1,2}:\d{2})/);
-  if (timeMatch) {
-    timeStr = timeMatch[1];
-  }
-
-  // ─── Adversário ───
-  // Tenta encontrar o time adversário: o texto após "x", "×" ou "vs"
-  let opponent = '';
-  const separatorMatch = clean.match(
-    /(?:[Ff]luminense|[Ff]lu)\s*(?:x|×|vs|VS|X)\s*([A-Za-zÀ-ÿ\s.]+?)(?:\s*\d|–|—|-|\.|,|\||$)/
-  );
-  if (separatorMatch) {
-    opponent = separatorMatch[1].trim().replace(/\s+/g, ' ');
-  }
-
-  // Se não achou com separador, tenta abordagem reversa:
-  // remove Fluminense e data, o que sobrar é o adversário
-  if (!opponent) {
-    let rest = clean
-      .replace(/fluminense/gi, '')
-      .replace(/\bflu\b/gi, '')
-      .replace(/×/g, '')
-      .replace(/x/gi, '')
-      .replace(/vs/gi, '')
-      .replace(/[\d\/:]+/g, '')
-      .replace(/[–—|,.\/#!$%^&*;:{}<>=\-_`~()]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-    const words = rest.split(' ').filter(w => w.length > 1);
-    if (words.length > 0) {
-      opponent = words.slice(0, 3).join(' ');
-    }
-  }
-
-  if (!opponent) opponent = 'Adversário';
-
-  // ─── Competição ───
-  let competition = 'Campeonato Brasileiro';
-  if (clean.toLowerCase().includes('copa')) competition = 'Copa do Brasil';
-  else if (clean.toLowerCase().includes('libertadores')) competition = 'Copa Libertadores';
-  else if (clean.toLowerCase().includes('sul-americana') || clean.toLowerCase().includes('sulamericana'))
-    competition = 'Copa Sul-Americana';
-  else if (clean.toLowerCase().includes('carioca')) competition = 'Campeonato Carioca';
-  else if (clean.toLowerCase().includes('amistoso')) competition = 'Amistoso';
-  else if (clean.toLowerCase().includes('mundial') || clean.toLowerCase().includes('interclubes'))
-    competition = 'Mundial de Clubes';
-  else if (clean.toLowerCase().includes('recopa')) competition = 'Recopa Sul-Americana';
-
-  // ─── Local ───
-  let venue = '';
-  const venueKeywords = ['maracanã', 'neo química arena', 'allianz', 'morumbi', 'mineirão',
-    'beira-rio', 'arena', 'estádio', 'estadio', 'são januario', 'são januário',
-    'engenhão', 'nilson santos', 'mané garrincha', 'castelão', 'heriberto hülse',
-    'ressacada', 'ilha do retiro', 'arruda', 'fonta nova', 'fonte nova',
-    'parque do sabiá', 'mangueirão', 'couto pereira', 'vila belmiro',
-    'baixada', 'club', 'serra dourada', 'barradão', 'laranjeiras'];
-
-  for (const kw of venueKeywords) {
-    const idx = clean.toLowerCase().indexOf(kw);
-    if (idx !== -1) {
-      venue = clean.substring(idx, idx + kw.length)
-        .replace(/^[,\s]+/, '')
-        .replace(/[,\s]+$/, '')
-        .trim();
-      // Capitaliza
-      venue = venue.charAt(0).toUpperCase() + venue.slice(1);
-      break;
-    }
-  }
-
-  // Timestamp
-  let timestamp = 0;
-  if (dateStr && timeStr) {
-    timestamp = Math.floor(new Date(`${dateStr}T${timeStr}:00`).getTime() / 1000);
-  }
-
-  // Determina se Flu é casa ou fora
-  // Se a partida é no Maraca ou Laranjeiras, Flu é casa
-  const fluIsHome = venue.toLowerCase().includes('maracanã') ||
-    venue.toLowerCase().includes('laranjeiras') ||
-    clean.toLowerCase().indexOf('fluminense') < clean.toLowerCase().indexOf(opponent);
-
-  return {
-    source: 'placardefutebol',
-    homeTeam: fluIsHome ? 'Fluminense' : opponent,
-    awayTeam: fluIsHome ? opponent : 'Fluminense',
-    competition: competition,
-    round: '',
-    venue: venue,
-    city: '',
-    date: dateStr,
-    time: timeStr,
-    timestamp: timestamp,
-    status: 'NS',
-    homeGoals: null,
-    awayGoals: null,
-  };
+  return nextGame;
 }
 
 /** Limpa o cache */
