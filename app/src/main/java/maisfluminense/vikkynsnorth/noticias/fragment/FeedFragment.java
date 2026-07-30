@@ -1086,7 +1086,9 @@ public class FeedFragment extends Fragment {
         }
         NativeAdLoader.loadAll(requireContext(), newsCount, ads -> {
             if (!isAdded()) return;
-            for (NativeAd old : loadedAds) old.destroy();
+            for (NativeAd old : loadedAds) {
+                if (old != null) old.destroy();
+            }
             loadedAds = ads;
             adapter.submitAds(ads);
         });
