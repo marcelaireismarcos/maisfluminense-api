@@ -48,6 +48,23 @@
                 android:textStyle="bold"
                 android:letterSpacing="0.08"/>
 
+            <!-- Status badge (Ao Vivo, Encerrado, etc) -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ng_status_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:chipBackgroundColor="@color/colorAccent"
+                app:chipMinHeight="18dp"
+                app:ensureMinTouchTargetSize="false"
+                app:chipCornerRadius="9dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                tools:text="AO VIVO"
+                tools:visibility="visible"/>
+
             <!-- Preview em modo colapsado -->
             <TextView
                 android:id="@+id/ng_collapsed_preview"
