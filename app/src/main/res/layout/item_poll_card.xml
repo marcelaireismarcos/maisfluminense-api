@@ -21,22 +21,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
-        <!-- ═══ CABEÇALHO: "📊 ENQUETE DA TORCIDA" ═══ -->
+        <!-- ═══ CABEÇALHO COM BOTÕES ═══ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="10dp">
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="📊"
-                android:textSize="16sp"
-                android:layout_marginEnd="6dp"/>
+                android:textSize="15sp"
+                android:layout_marginEnd="5dp"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -44,74 +43,134 @@
                 android:layout_weight="1"
                 android:text="@string/poll_header"
                 android:textColor="@color/colorAccent"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.08"/>
 
-            <!-- Badge "Votou" -->
-            <com.google.android.material.chip.Chip
-                android:id="@+id/poll_voted_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:textSize="9sp"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                app:chipBackgroundColor="@color/colorAccent"
-                app:chipMinHeight="20dp"
-                app:ensureMinTouchTargetSize="false"
-                app:chipCornerRadius="10dp"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                tools:text="✅ Votou"
-                tools:visibility="visible"/>
-
-        </LinearLayout>
-
-        <!-- ═══ PERGUNTA ═══ -->
-        <TextView
-            android:id="@+id/poll_question"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_primary"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:lineSpacingExtra="3dp"
-            android:layout_marginBottom="14dp"
-            tools:text="Qual contratação você mais quer para o Fluminense?"/>
-
-        <!-- ═══ OPÇÕES (preenchidas dinamicamente) ═══ -->
-        <LinearLayout
-            android:id="@+id/poll_options_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-
-        <!-- ═══ RODAPÉ: total de votos ═══ -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="8dp"
-            android:paddingTop="8dp">
-
+            <!-- Preview em modo colapsado -->
             <TextView
-                android:id="@+id/poll_total_votes"
+                android:id="@+id/poll_collapsed_preview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp"
-                tools:text="🗳️ 1.234 votos"/>
-
-            <TextView
-                android:id="@+id/poll_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/error_red"
-                android:textSize="11sp"
+                android:gravity="end"
                 android:visibility="gone"
-                tools:text="Erro ao votar. Toque para tentar novamente."/>
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Gabigol lidera"
+                tools:visibility="visible"/>
+
+            <!-- Badge "Votou" -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/poll_voted_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:chipBackgroundColor="@color/colorAccent"
+                app:chipMinHeight="18dp"
+                app:ensureMinTouchTargetSize="false"
+                app:chipCornerRadius="9dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                tools:text="✅ Votou"
+                tools:visibility="visible"/>
+
+            <!-- Botão colapsar/expandir -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/poll_toggle_btn"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@string/content_description_collapse"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:iconSize="16dp"
+                app:icon="@android:drawable/arrow_up_float"
+                app:iconTint="@color/text_secondary"
+                app:backgroundTint="@android:color/transparent"
+                app:rippleColor="@color/colorPrimary"/>
+
+            <!-- Botão dispensar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/poll_dismiss_btn"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@string/content_description_dismiss"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:iconSize="16dp"
+                app:icon="@android:drawable/ic_menu_close_clear_cancel"
+                app:iconTint="@color/text_secondary"
+                app:backgroundTint="@android:color/transparent"
+                app:rippleColor="@color/error_red"/>
+
+        </LinearLayout>
+
+        <!-- ═══ CONTEÚDO EXPANDIDO ═══ -->
+        <LinearLayout
+            android:id="@+id/poll_expanded_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:layout_marginTop="8dp">
+
+            <!-- ═══ PERGUNTA ═══ -->
+            <TextView
+                android:id="@+id/poll_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:lineSpacingExtra="3dp"
+                android:layout_marginBottom="12dp"
+                tools:text="Qual contratação você mais quer para o Fluminense?"/>
+
+            <!-- ═══ OPÇÕES (preenchidas dinamicamente) ═══ -->
+            <LinearLayout
+                android:id="@+id/poll_options_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+            <!-- ═══ RODAPÉ: total de votos ═══ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="6dp"
+                android:paddingTop="6dp">
+
+                <TextView
+                    android:id="@+id/poll_total_votes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="10sp"
+                    tools:text="🗳️ 1.234 votos"/>
+
+                <TextView
+                    android:id="@+id/poll_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/error_red"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    tools:text="Erro ao votar. Toque para tentar novamente."/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

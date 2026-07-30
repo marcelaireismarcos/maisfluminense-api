@@ -21,22 +21,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
-        <!-- ═══ CABEÇALHO: "⚽ PRÓXIMO JOGO" ═══ -->
+        <!-- ═══ CABEÇALHO COM BOTÕES ═══ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="0dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="⚽"
-                android:textSize="16sp"
-                android:layout_marginEnd="6dp"/>
+                android:textSize="15sp"
+                android:layout_marginEnd="5dp"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -44,189 +44,229 @@
                 android:layout_weight="1"
                 android:text="PRÓXIMO JOGO"
                 android:textColor="@color/colorPrimary"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.08"/>
 
-            <!-- Status badge (Ao Vivo, etc) -->
-            <com.google.android.material.chip.Chip
-                android:id="@+id/ng_status_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:textSize="9sp"
-                android:textColor="@color/white"
+            <!-- Preview em modo colapsado -->
+            <TextView
+                android:id="@+id/ng_collapsed_preview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                android:gravity="end"
                 android:visibility="gone"
-                app:chipBackgroundColor="@color/colorAccent"
-                app:chipMinHeight="22dp"
-                app:ensureMinTouchTargetSize="false"
-                app:chipCornerRadius="11dp"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                tools:text="AO VIVO"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Vasco x Flu · Sáb"
                 tools:visibility="visible"/>
 
-        </LinearLayout>
+            <!-- Botão colapsar/expandir -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ng_toggle_btn"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/content_description_collapse"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:iconSize="18dp"
+                app:icon="@android:drawable/arrow_up_float"
+                app:iconTint="@color/text_secondary"
+                app:backgroundTint="@android:color/transparent"
+                app:rippleColor="@color/colorPrimary"/>
 
-        <!-- ═══ TIMES ═══ -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="12dp">
-
-            <!-- Time da casa -->
-            <LinearLayout
-                android:id="@+id/ng_home_team"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/ng_home_logo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/ng_home_team_desc"
-                    tools:src="@drawable/ic_launcher"/>
-
-                <TextView
-                    android:id="@+id/ng_home_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/text_primary"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    tools:text="Fluminense"/>
-
-            </LinearLayout>
-
-            <!-- VS badge -->
-            <TextView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:text="VS"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:background="@drawable/circular"
-                android:backgroundTint="@color/colorPrimary"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
-
-            <!-- Time visitante -->
-            <LinearLayout
-                android:id="@+id/ng_away_team"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:id="@+id/ng_away_logo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:scaleType="fitCenter"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/ng_away_team_desc"
-                    tools:src="@drawable/ic_launcher"/>
-
-                <TextView
-                    android:id="@+id/ng_away_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/text_primary"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    tools:text="Palmeiras"/>
-
-            </LinearLayout>
+            <!-- Botão dispensar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ng_dismiss_btn"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/content_description_dismiss"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:iconSize="18dp"
+                app:icon="@android:drawable/ic_menu_close_clear_cancel"
+                app:iconTint="@color/text_secondary"
+                app:backgroundTint="@android:color/transparent"
+                app:rippleColor="@color/error_red"/>
 
         </LinearLayout>
 
-        <!-- ═══ COMPETIÇÃO ═══ -->
+        <!-- ═══ CONTEÚDO EXPANDIDO ═══ -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="8dp">
-
-            <TextView
-                android:id="@+id/ng_competition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/text_secondary"
-                android:textSize="11sp"
-                tools:text="🏆 Brasileirão Série A · Rodada 10"/>
-
-        </LinearLayout>
-
-        <!-- ═══ LOCAL ═══ -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:id="@+id/ng_venue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/text_secondary"
-                android:textSize="11sp"
-                tools:text="📍 Maracanã - Rio de Janeiro"/>
-
-        </LinearLayout>
-
-        <!-- ═══ DIVISOR ═══ -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/surface_divider"
-            android:layout_marginBottom="10dp"/>
-
-        <!-- ═══ CONTAGEM REGRESSIVA / DATA ═══ -->
-        <LinearLayout
+            android:id="@+id/ng_expanded_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:visibility="visible">
 
-            <TextView
-                android:id="@+id/ng_countdown"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.03"
-                tools:text="⏰ 3d 14h 32m 15s"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp">
 
-            <TextView
-                android:id="@+id/ng_date"
-                android:layout_width="wrap_content"
+                <!-- Time da casa -->
+                <LinearLayout
+                    android:id="@+id/ng_home_team"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/ng_home_logo"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/ng_home_team_desc"
+                        tools:src="@drawable/ic_launcher"/>
+
+                    <TextView
+                        android:id="@+id/ng_home_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        tools:text="Vasco"/>
+
+                </LinearLayout>
+
+                <!-- VS badge -->
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="VS"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:background="@drawable/circular"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"/>
+
+                <!-- Time visitante -->
+                <LinearLayout
+                    android:id="@+id/ng_away_team"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/ng_away_logo"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/ng_away_team_desc"
+                        tools:src="@drawable/ic_launcher"/>
+
+                    <TextView
+                        android:id="@+id/ng_away_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        tools:text="Fluminense"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ═══ COMPETIÇÃO ═══ -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/text_secondary"
-                android:textSize="11sp"
-                tools:text="15/07/2026 · 21:00"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:id="@+id/ng_competition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="10sp"
+                    tools:text="🏆 Copa do Brasil"/>
+            </LinearLayout>
+
+            <!-- ═══ LOCAL ═══ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/ng_venue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="10sp"
+                    tools:text="📍 Maracanã"/>
+            </LinearLayout>
+
+            <!-- ═══ DIVISOR ═══ -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/surface_divider"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- ═══ CONTAGEM REGRESSIVA / DATA ═══ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/ng_countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.03"
+                    tools:text="⏰ 1d 14h 32m"/>
+
+                <TextView
+                    android:id="@+id/ng_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="10sp"
+                    tools:text="📅 01/08/2026 · 17:30"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

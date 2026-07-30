@@ -556,4 +556,23 @@ public class SharedPreferencesManager {
     public String getString(String key, String defaultValue) {
         return sharedPrefs.getString(key, defaultValue);
     }
+
+    // ══════════════════════════════════════════════
+    // MÉTODOS BOOLEANOS (para estados de UI)
+    // ══════════════════════════════════════════════
+
+    /** Salva um boolean com chave dinâmica */
+    public void putBoolean(String key, boolean value) {
+        sharedPrefs.edit().putBoolean(key, value).apply();
+    }
+
+    /** Recupera um boolean com chave dinâmica (padrão false) */
+    public boolean getBoolean(String key) {
+        return sharedPrefs.getBoolean(key, false);
+    }
+
+    /** Recupera um boolean com chave dinâmica e valor padrão personalizado */
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return sharedPrefs.getBoolean(key, defaultValue);
+    }
 }

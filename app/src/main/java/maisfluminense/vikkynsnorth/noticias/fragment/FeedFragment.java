@@ -151,10 +151,222 @@ public class FeedFragment extends Fragment {
         View retryBtn = view.findViewById(R.id.btn_retry);
         if (retryBtn != null) retryBtn.setOnClickListener(v -> loadFeed());
 
+        // ─── Configura botões dos cards ───
+        setupCardControls();
+
         // Carrega o próximo jogo e a enquete em paralelo com as notícias
         fetchNextGame();
         fetchPoll();
         loadFeed();
+    }
+
+    // ══════════════════════════════════════════════
+    // CONTROLES DOS CARDS (dismiss, collapse, restore)
+    // ══════════════════════════════════════════════
+
+    private void setupCardControls() {
+        if (!isAdded()) return;
+
+        // ─── Botões do card do próximo jogo ───
+        View ngDismissBtn = null;
+        View ngToggleBtn = null;
+        if (nextGameCard != null) {
+            ngDismissBtn = nextGameCard.findViewById(R.id.ng_dismiss_btn);
+            ngToggleBtn = nextGameCard.findViewById(R.id.ng_toggle_btn);
+        }
+
+        if (ngDismissBtn != null) {
+            ngDismissBtn.setOnClickListener(v -> dismissNextGame());
+        }
+        if (ngToggleBtn != null) {
+            ngToggleBtn.setOnClickListener(v -> toggleNextGameCollapse());
+        }
+
+        // ─── Botões do card de enquete ───
+        View pollDismissBtn = null;
+        View pollToggleBtn = null;
+        if (pollCard != null) {
+            pollDismissBtn = pollCard.findViewById(R.id.poll_dismiss_btn);
+            pollToggleBtn = pollCard.findViewById(R.id.poll_toggle_btn);
+        }
+
+        if (pollDismissBtn != null) {
+            pollDismissBtn.setOnClickListener(v -> dismissPoll());
+        }
+        if (pollToggleBtn != null) {
+            pollToggleBtn.setOnClickListener(v -> togglePollCollapse());
+        }
+
+        // ─── Highlights bar (restaurar cards) ───
+        View highlightsNg = null;
+        View highlightsPoll = null;
+        View highlightsBar = null;
+        if (getView() != null) {
+            highlightsBar = getView().findViewById(R.id.highlights_bar);
+            highlightsNg = getView().findViewById(R.id.highlights_next_game);
+            highlightsPoll = getView().findViewById(R.id.highlights_poll);
+        }
+
+        if (highlightsNg != null) {
+            highlightsNg.setOnClickListener(v -> restoreNextGame());
+        }
+        if (highlightsPoll != null) {
+            highlightsPoll.setOnClickListener(v -> restorePoll());
+        }
+    }
+
+    /** Dispensa o card do próximo jogo */
+    private void dismissNextGame() {
+        if (!isAdded()) return;
+        SharedPreferencesManager.getInstance(requireContext())
+                .putBoolean("next_game_dismissed", true);
+        if (nextGameCard != null) nextGameCard.setVisibility(View.GONE);
+        updateHighlightsBar();
+    }
+
+    /** Restaura o card do próximo jogo */
+    private void restoreNextGame() {
+        if (!isAdded()) return;
+        SharedPreferencesManager.getInstance(requireContext())
+                .putBoolean("next_game_dismissed", false);
+        // Re-fetch se necessário
+        if (nextGameCard != null && nextGameCard.getVisibility() != View.VISIBLE) {
+            fetchNextGame();
+        }
+        updateHighlightsBar();
+    }
+
+    /** Dispensa o card de enquete */
+    private void dismissPoll() {
+        if (!isAdded()) return;
+        SharedPreferencesManager.getInstance(requireContext())
+                .putBoolean("poll_dismissed", true);
+        if (pollCard != null) pollCard.setVisibility(View.GONE);
+        updateHighlightsBar();
+    }
+
+    /** Restaura o card de enquete */
+    private void restorePoll() {
+        if (!isAdded()) return;
+        SharedPreferencesManager.getInstance(requireContext())
+                .putBoolean("poll_dismissed", false);
+        if (pollCard != null && pollCard.getVisibility() != View.VISIBLE) {
+            fetchPoll();
+        }
+        updateHighlightsBar();
+    }
+
+    /** Alterna entre expandido/colapsado do card do próximo jogo */
+    private void toggleNextGameCollapse() {
+        if (!isAdded() || nextGameCard == null) return;
+        View expanded = nextGameCard.findViewById(R.id.ng_expanded_content);
+        View preview = nextGameCard.findViewById(R.id.ng_collapsed_preview);
+        View toggleBtn = nextGameCard.findViewById(R.id.ng_toggle_btn);
+        if (expanded == null || preview == null || toggleBtn == null) return;
+
+        boolean isExpanded = expanded.getVisibility() == View.VISIBLE;
+        if (isExpanded) {
+            // Colapsa
+            expanded.setVisibility(View.GONE);
+            preview.setVisibility(View.VISIBLE);
+            toggleBtn.animate().rotation(180).setDuration(200).start();
+            SharedPreferencesManager.getInstance(requireContext())
+                    .putBoolean("next_game_collapsed", true);
+        } else {
+            // Expande
+            expanded.setVisibility(View.VISIBLE);
+            preview.setVisibility(View.GONE);
+            toggleBtn.animate().rotation(0).setDuration(200).start();
+            SharedPreferencesManager.getInstance(requireContext())
+                    .putBoolean("next_game_collapsed", false);
+        }
+    }
+
+    /** Alterna entre expandido/colapsado do card de enquete */
+    private void togglePollCollapse() {
+        if (!isAdded() || pollCard == null) return;
+        View expanded = pollCard.findViewById(R.id.poll_expanded_content);
+        View preview = pollCard.findViewById(R.id.poll_collapsed_preview);
+        View toggleBtn = pollCard.findViewById(R.id.poll_toggle_btn);
+        if (expanded == null || preview == null || toggleBtn == null) return;
+
+        boolean isExpanded = expanded.getVisibility() == View.VISIBLE;
+        if (isExpanded) {
+            expanded.setVisibility(View.GONE);
+            preview.setVisibility(View.VISIBLE);
+            toggleBtn.setRotation(180);
+            SharedPreferencesManager.getInstance(requireContext())
+                    .putBoolean("poll_collapsed", true);
+        } else {
+            expanded.setVisibility(View.VISIBLE);
+            preview.setVisibility(View.GONE);
+            toggleBtn.setRotation(0);
+            SharedPreferencesManager.getInstance(requireContext())
+                    .putBoolean("poll_collapsed", false);
+        }
+    }
+
+    /** Atualiza o banner de destaques baseado no estado dos cards */
+    private void updateHighlightsBar() {
+        if (!isAdded()) return;
+        View bar = null;
+        View ngChip = null;
+        View pollChip = null;
+        if (getView() != null) {
+            bar = getView().findViewById(R.id.highlights_bar);
+            ngChip = getView().findViewById(R.id.highlights_next_game);
+            pollChip = getView().findViewById(R.id.highlights_poll);
+        }
+        if (bar == null || ngChip == null || pollChip == null) return;
+
+        SharedPreferencesManager prefs = SharedPreferencesManager.getInstance(requireContext());
+        boolean ngDismissed = prefs.getBoolean("next_game_dismissed");
+        boolean pollDismissed = prefs.getBoolean("poll_dismissed");
+
+        boolean hasContent = false;
+        if (ngDismissed) {
+            ngChip.setVisibility(View.VISIBLE);
+            hasContent = true;
+        } else {
+            ngChip.setVisibility(View.GONE);
+        }
+        if (pollDismissed) {
+            pollChip.setVisibility(View.VISIBLE);
+            hasContent = true;
+        } else {
+            pollChip.setVisibility(View.GONE);
+        }
+
+        bar.setVisibility(hasContent ? View.VISIBLE : View.GONE);
+    }
+
+    /** Aplica estado colapsado se o usuário é Ouro/Diamante */
+    private void applyFidelityCollapse() {
+        if (!isAdded()) return;
+        int level = SharedPreferencesManager.getInstance(requireContext()).getFidelityLevel();
+        // Ouro (3) e Diamante (4) — auto-colapsa
+        if (level >= 3) {
+            if (nextGameCard != null && nextGameCard.getVisibility() == View.VISIBLE) {
+                View expanded = nextGameCard.findViewById(R.id.ng_expanded_content);
+                View preview = nextGameCard.findViewById(R.id.ng_collapsed_preview);
+                View toggleBtn = nextGameCard.findViewById(R.id.ng_toggle_btn);
+                if (expanded != null && preview != null) {
+                    expanded.setVisibility(View.GONE);
+                    preview.setVisibility(View.VISIBLE);
+                    if (toggleBtn != null) toggleBtn.setRotation(180);
+                }
+            }
+            if (pollCard != null && pollCard.getVisibility() == View.VISIBLE) {
+                View expanded = pollCard.findViewById(R.id.poll_expanded_content);
+                View preview = pollCard.findViewById(R.id.poll_collapsed_preview);
+                View toggleBtn = pollCard.findViewById(R.id.poll_toggle_btn);
+                if (expanded != null && preview != null) {
+                    expanded.setVisibility(View.GONE);
+                    preview.setVisibility(View.VISIBLE);
+                    if (toggleBtn != null) toggleBtn.setRotation(180);
+                }
+            }
+        }
     }
 
     // ══════════════════════════════════════════════
@@ -216,7 +428,32 @@ public class FeedFragment extends Fragment {
         String totalStr = getString(R.string.poll_total_votes, currentPoll.getTotalVotes());
         pollTotalVotes.setText(totalStr);
 
+        // Preview texto para modo colapsado
+        String pollPreview = "📊 " + currentPoll.getQuestion();
+        if (pollPreview.length() > 30) pollPreview = pollPreview.substring(0, 27) + "…";
+        TextView pollPreviewView = pollCard.findViewById(R.id.poll_collapsed_preview);
+        if (pollPreviewView != null) pollPreviewView.setText(pollPreview);
+
+        // Atualiza chip no highlights bar
+        View highlightsChip = null;
+        if (getView() != null) {
+            highlightsChip = getView().findViewById(R.id.highlights_poll);
+        }
+        if (highlightsChip instanceof TextView) {
+            ((TextView) highlightsChip).setText(pollPreview);
+        }
+
+        // Verifica se foi dispensado
+        SharedPreferencesManager prefs = SharedPreferencesManager.getInstance(requireContext());
+        if (prefs.getBoolean("poll_dismissed")) {
+            pollCard.setVisibility(View.GONE);
+            updateHighlightsBar();
+            return;
+        }
+
         pollCard.setVisibility(View.VISIBLE);
+        applyFidelityCollapse();
+        updateHighlightsBar();
     }
 
     private void showPollResults() {
@@ -228,6 +465,10 @@ public class FeedFragment extends Fragment {
 
         int totalVotes = currentPoll.getTotalVotes();
         LayoutInflater inflater = LayoutInflater.from(getContext());
+
+        // Descobre a opção mais votada para o preview
+        String topOptionText = "";
+        int topPct = 0;
 
         for (PollItem.Option option : currentPoll.getOptions()) {
             View optView = inflater.inflate(R.layout.item_poll_option, pollOptionsContainer, false);
@@ -250,8 +491,7 @@ public class FeedFragment extends Fragment {
             View bar = optView.findViewById(R.id.poll_option_bar);
             if (totalVotes > 0 && option.getPct() > 0) {
                 bar.setVisibility(View.VISIBLE);
-                bar.getLayoutParams().width = 0; // vai ser definido via layout
-                // Usamos layout params para definir a largura proporcional
+                bar.getLayoutParams().width = 0;
                 bar.post(() -> {
                     if (!isAdded()) return;
                     int parentWidth = btn.getWidth();
@@ -265,6 +505,12 @@ public class FeedFragment extends Fragment {
             }
 
             pollOptionsContainer.addView(optView);
+
+            // Guarda a opção com maior % para o preview
+            if (option.getPct() > topPct) {
+                topPct = option.getPct();
+                topOptionText = option.getText();
+            }
         }
 
         // Badge "Votou"
@@ -275,7 +521,34 @@ public class FeedFragment extends Fragment {
         String totalStr = getString(R.string.poll_total_votes, currentPoll.getTotalVotes());
         pollTotalVotes.setText(totalStr);
 
+        // Preview texto para modo colapsado
+        String pollPreview = "📊 " + (votedOptionId != null
+                ? "Votou em " + topOptionText
+                : topOptionText.length() > 0 ? topOptionText + " lidera" : currentPoll.getQuestion());
+        if (pollPreview.length() > 35) pollPreview = pollPreview.substring(0, 32) + "…";
+        TextView pollPreviewView = pollCard.findViewById(R.id.poll_collapsed_preview);
+        if (pollPreviewView != null) pollPreviewView.setText(pollPreview);
+
+        // Atualiza chip no highlights bar
+        View highlightsChip = null;
+        if (getView() != null) {
+            highlightsChip = getView().findViewById(R.id.highlights_poll);
+        }
+        if (highlightsChip instanceof TextView) {
+            ((TextView) highlightsChip).setText(pollPreview);
+        }
+
+        // Verifica se foi dispensado
+        SharedPreferencesManager prefs = SharedPreferencesManager.getInstance(requireContext());
+        if (prefs.getBoolean("poll_dismissed")) {
+            pollCard.setVisibility(View.GONE);
+            updateHighlightsBar();
+            return;
+        }
+
         pollCard.setVisibility(View.VISIBLE);
+        applyFidelityCollapse();
+        updateHighlightsBar();
     }
 
     private void handleVote(String optionId) {
@@ -485,7 +758,37 @@ public class FeedFragment extends Fragment {
 
             // Status
             updateGameStatus(status, timestamp > 0);
+
+            // Preview texto para modo colapsado
+            String previewText = fluIsHome
+                    ? "⚽ Fluminense × " + awayTeam
+                    : "⚽ " + homeTeam + " × Fluminense";
+            if (timestamp > 0) {
+                previewText += " · " + timeFormat.format(new Date(timestamp * 1000L));
+            }
+            TextView ngPreview = nextGameCard.findViewById(R.id.ng_collapsed_preview);
+            if (ngPreview != null) ngPreview.setText(previewText);
+
+            // Atualiza chip no highlights bar
+            View highlightsChip = null;
+            if (getView() != null) {
+                highlightsChip = getView().findViewById(R.id.highlights_next_game);
+            }
+            if (highlightsChip instanceof TextView) {
+                ((TextView) highlightsChip).setText(previewText);
+            }
+
+            // Verifica se foi dispensado
+            SharedPreferencesManager prefs = SharedPreferencesManager.getInstance(requireContext());
+            if (prefs.getBoolean("next_game_dismissed")) {
+                nextGameCard.setVisibility(View.GONE);
+                updateHighlightsBar();
+                return;
+            }
+
             nextGameCard.setVisibility(View.VISIBLE);
+            applyFidelityCollapse();
+            updateHighlightsBar();
 
         } catch (Exception e) {
             Log.e(TAG, "displayNextGameFromServer: " + e.getMessage());
@@ -615,7 +918,36 @@ public class FeedFragment extends Fragment {
             startCountdown();
         }
 
+        // Preview texto para modo colapsado
+        String previewText = fluIsHome
+                ? "⚽ Fluminense × " + oppTeam.name
+                : "⚽ " + oppTeam.name + " × Fluminense";
+        if (fixture.fixture.timestamp > 0) {
+            previewText += " · " + timeFormat.format(new Date(fixture.fixture.timestamp * 1000L));
+        }
+        TextView ngPreview = nextGameCard.findViewById(R.id.ng_collapsed_preview);
+        if (ngPreview != null) ngPreview.setText(previewText);
+
+        // Atualiza chip no highlights bar
+        View highlightsChip = null;
+        if (getView() != null) {
+            highlightsChip = getView().findViewById(R.id.highlights_next_game);
+        }
+        if (highlightsChip instanceof TextView) {
+            ((TextView) highlightsChip).setText(previewText);
+        }
+
+        // Verifica se foi dispensado
+        SharedPreferencesManager prefs = SharedPreferencesManager.getInstance(requireContext());
+        if (prefs.getBoolean("next_game_dismissed")) {
+            nextGameCard.setVisibility(View.GONE);
+            updateHighlightsBar();
+            return;
+        }
+
         nextGameCard.setVisibility(View.VISIBLE);
+        applyFidelityCollapse();
+        updateHighlightsBar();
     }
 
     private void loadTeamLogo(ImageView imageView, String logoUrl) {

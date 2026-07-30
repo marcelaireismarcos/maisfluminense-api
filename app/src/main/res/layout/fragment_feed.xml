@@ -25,6 +25,9 @@
             <!-- Card de enquete da torcida (visível apenas quando carregada) -->
             <include layout="@layout/item_poll_card"/>
 
+            <!-- Banner de destaques (quando cards são dispensados) -->
+            <include layout="@layout/item_highlights_bar"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/feed_recycler"
                 android:layout_width="match_parent"

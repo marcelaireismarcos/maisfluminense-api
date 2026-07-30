@@ -338,6 +338,21 @@
     <string name="ng_countdown_hours">%dh %dm %ds</string>
     <string name="ng_error">Não foi possível carregar o próximo jogo.</string>
 
+    <!-- ══════════════════════════════════════════════
+         COLLAPSIBLE CARDS / HIGHLIGHTS BAR
+         ══════════════════════════════════════════════ -->
+    <string name="card_dismiss">Dispensar</string>
+    <string name="card_collapse">Minimizar</string>
+    <string name="card_expand">Expandir</string>
+    <string name="card_restore_next_game">⚽ Ver próximo jogo</string>
+    <string name="card_restore_poll">📊 Ver enquete</string>
+    <string name="highlights_bar_title">Destaques</string>
+    <string name="highlights_restore_all">Restaurar todos</string>
+    <string name="highlights_empty">Nenhum destaque oculto</string>
+    <string name="content_description_dismiss">Dispensar</string>
+    <string name="content_description_collapse">Minimizar</string>
+    <string name="content_description_expand">Expandir</string>
+
     <string name="nav_tema">Tema</string>
     <string name="theme_dialog_title">Escolher tema</string>
     <string name="theme_system">Sistema</string>
