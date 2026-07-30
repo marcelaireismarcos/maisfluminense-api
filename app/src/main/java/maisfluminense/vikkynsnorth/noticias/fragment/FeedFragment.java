@@ -389,7 +389,32 @@ public class FeedFragment extends Fragment {
                 if (voted != null) {
                     pollVoted = true;
                     votedOptionId = voted;
-                    showPollResults();
+
+                    // ─── Auto-restore: se o servidor perdeu os dados (total <= 5)
+                    // e o usuário já votou, re-registra o voto automaticamente ───
+                    if (poll.getTotalVotes() <= 5) {
+                        Log.d(TAG, "Servidor perdeu dados da enquete — restaurando voto...");
+                        PollApiClient.restoreVote(requireContext(), poll.getId(), voted,
+                                new PollApiClient.VoteCallback() {
+                            @Override
+                            public void onSuccess(PollItem restored) {
+                                if (!isAdded()) return;
+                                Log.d(TAG, "Voto restaurado com sucesso!");
+                                currentPoll = restored;
+                                showPollResults();
+                            }
+
+                            @Override
+                            public void onError(String msg) {
+                                // Mostra resultados com os dados que temos (provavelmente zeros)
+                                Log.d(TAG, "Falha ao restaurar voto: " + msg);
+                                if (isAdded()) showPollResults();
+                            }
+                        });
+                    } else {
+                        // Dados normais — mostra resultados diretamente
+                        showPollResults();
+                    }
                 } else {
                     pollVoted = false;
                     votedOptionId = null;

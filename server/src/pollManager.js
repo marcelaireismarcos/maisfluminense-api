@@ -10,46 +10,55 @@ const path = require('path');
 const DATA_FILE = path.join(__dirname, '..', 'data', 'polls.json');
 
 // ─── Enquetes padrão (criadas na primeira execução) ──────────────
-const DEFAULT_POLLS = [
-  {
-    id: 1,
-    question: 'Qual contratação você mais quer para o Fluminense?',
-    options: [
-      { id: 'a', text: 'Gabriel Barbosa (Gabigol)',  votes: 0 },
-      { id: 'b', text: 'Arrascaeta',                  votes: 0 },
-      { id: 'c', text: 'Pedro (Flamengo)',             votes: 0 },
-      { id: 'd', text: 'Nenhum desses',                votes: 0 },
-    ],
-    active:    true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 2,
-    question: 'Qual o maior ídolo da história do Fluminense?',
-    options: [
-      { id: 'a', text: 'Fred',               votes: 0 },
-      { id: 'b', text: 'Castilho',            votes: 0 },
-      { id: 'c', text: 'Assis',               votes: 0 },
-      { id: 'd', text: 'Conca',               votes: 0 },
-      { id: 'e', text: 'Telê Santana',        votes: 0 },
-    ],
-    active:    false,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 3,
-    question: 'O Fluminense vai ser campeão brasileiro em 2026?',
-    options: [
-      { id: 'a', text: 'Sim, com certeza! 💚',  votes: 0 },
-      { id: 'b', text: 'Vai brigar pelo título', votes: 0 },
-      { id: 'c', text: 'Vai ficar no G-4',       votes: 0 },
-      { id: 'd', text: 'Vai ficar no meio',      votes: 0 },
-      { id: 'e', text: 'Infelizmente não 🙁',    votes: 0 },
-    ],
-    active:    false,
-    createdAt: new Date().toISOString(),
-  },
-];
+// ─── Votos de seed (para sobreviver a restart do Render free tier) ─
+// O Render free tier NÃO persiste arquivos no disco entre reinícios.
+// Sempre que o servidor reinicia, os votos zeram. Seedamos alguns votos
+// para a enquete nunca aparecer com 0%.
+// Estes votos são meramente ilustrativos — votos reais de usuários
+// se acumulam em cima deles.
+function getDefaultPolls() {
+  const now = new Date().toISOString();
+  return [
+    {
+      id: 1,
+      question: 'Qual contratação você mais quer para o Fluminense?',
+      options: [
+        { id: 'a', text: 'Gabriel Barbosa (Gabigol)',  votes: 4 },
+        { id: 'b', text: 'Arrascaeta',                  votes: 2 },
+        { id: 'c', text: 'Pedro (Flamengo)',             votes: 1 },
+        { id: 'd', text: 'Nenhum desses',                votes: 1 },
+      ],
+      active:    true,
+      createdAt: now,
+    },
+    {
+      id: 2,
+      question: 'Qual o maior ídolo da história do Fluminense?',
+      options: [
+        { id: 'a', text: 'Fred',               votes: 3 },
+        { id: 'b', text: 'Castilho',            votes: 1 },
+        { id: 'c', text: 'Assis',               votes: 1 },
+        { id: 'd', text: 'Conca',               votes: 2 },
+        { id: 'e', text: 'Telê Santana',        votes: 1 },
+      ],
+      active:    false,
+      createdAt: now,
+    },
+    {
+      id: 3,
+      question: 'O Fluminense vai ser campeão brasileiro em 2026?',
+      options: [
+        { id: 'a', text: 'Sim, com certeza!',  votes: 5 },
+        { id: 'b', text: 'Vai brigar pelo título', votes: 2 },
+        { id: 'c', text: 'Vai ficar no G-4',       votes: 1 },
+        { id: 'd', text: 'Vai ficar no meio',      votes: 1 },
+        { id: 'e', text: 'Infelizmente não',    votes: 0 },
+      ],
+      active:    false,
+      createdAt: now,
+    },
+  ];
+}
 
 // ─── Estado em memória ──────────────────────────────────────────
 let polls = [];
@@ -65,13 +74,13 @@ function load() {
       polls = JSON.parse(raw);
       console.log(`[pollManager] ${polls.length} enquetes carregadas`);
     } else {
-      polls = JSON.parse(JSON.stringify(DEFAULT_POLLS));
+      polls = getDefaultPolls();
       save();
-      console.log('[pollManager] Enquetes padrão criadas');
+      console.log('[pollManager] Enquetes padrão criadas (com seed de votos)');
     }
   } catch (err) {
     console.error('[pollManager] Erro ao carregar:', err.message);
-    polls = JSON.parse(JSON.stringify(DEFAULT_POLLS));
+    polls = getDefaultPolls();
   }
 }
 
@@ -148,6 +157,51 @@ function vote(pollId, optionId) {
   };
 }
 
+/**
+ * Restaura o voto de um usuário (re-envio após restart do servidor).
+ * Só incrementa se o total de votos for <= 5 (sinal de que o servidor
+ * reiniciou e perdeu os dados da enquete).
+ */
+function restoreVote(pollId, optionId) {
+  const poll = polls.find(p => p.id === pollId && p.active);
+  if (!poll) {
+    return { success: false, message: 'Enquete não encontrada ou inativa.' };
+  }
+
+  const option = poll.options.find(o => o.id === optionId);
+  if (!option) {
+    return { success: false, message: 'Opção inválida.' };
+  }
+
+  // Só incrementa se o total de votos for <= 5 (sinal de restart)
+  const total = poll.options.reduce((sum, o) => sum + o.votes, 0);
+  if (total <= 5) {
+    option.votes = (option.votes || 0) + 1;
+    save();
+    console.log('[pollManager] Voto restaurado para opção ' + optionId);
+  }
+
+  const newTotal = poll.options.reduce((sum, o) => sum + o.votes, 0);
+  return {
+    success: true,
+    message: total <= 5 ? 'Voto restaurado!' : 'Enquete já possui dados.',
+    poll: {
+      id:         poll.id,
+      question:   poll.question,
+      options:    poll.options.map(o => ({
+        id:    o.id,
+        text:  o.text,
+        votes: o.votes,
+        pct:   newTotal > 0 ? Math.round((o.votes / newTotal) * 100) : 0,
+      })),
+      totalVotes: newTotal,
+      createdAt:  poll.createdAt,
+    },
+  };
+}
+
+
+
 /** Retorna lista de todas as enquetes (para debug/admin) */
 function getAllPolls() {
   return polls.map(p => {
@@ -180,4 +234,4 @@ function activatePoll(pollId) {
 // ─── Inicializar ────────────────────────────────────────────────
 load();
 
-module.exports = { getActivePoll, vote, getAllPolls, activatePoll };
+module.exports = { getActivePoll, vote, restoreVote, getAllPolls, activatePoll };

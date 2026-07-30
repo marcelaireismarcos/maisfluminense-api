@@ -207,6 +207,27 @@ app.get('/enquetes/todas', (req, res) => {
   res.json(pollManager.getAllPolls());
 });
 
+/**
+ * POST /enquetes/restaurar-voto — Restaura um voto perdido pelo restart do servidor.
+ * Body: { pollId: number, optionId: string }
+ * Diferença do /votar: só incrementa se o total de votos for muito baixo
+ * (sinal de que o servidor reiniciou e perdeu os dados).
+ */
+app.post('/enquetes/restaurar-voto', (req, res) => {
+  const { pollId, optionId } = req.body;
+
+  if (!pollId || !optionId) {
+    return res.status(400).json({ success: false, message: 'pollId e optionId são obrigatórios.' });
+  }
+
+  const result = pollManager.restoreVote(Number(pollId), optionId);
+  if (!result.success) {
+    return res.status(400).json(result);
+  }
+
+  res.json(result);
+});
+
 /** POST /enquetes/ativar — Ativa uma enquete pelo ID (admin) */
 app.post('/enquetes/ativar', (req, res) => {
   const { pollId } = req.body;

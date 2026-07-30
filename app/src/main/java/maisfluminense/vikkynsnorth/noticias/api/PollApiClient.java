@@ -40,6 +40,9 @@ public class PollApiClient {
 
         @POST("enquetes/votar")
         Call<PollItem.VoteResponse> vote(@Body PollItem.VoteRequest request);
+
+        @POST("enquetes/restaurar-voto")
+        Call<PollItem.VoteResponse> restoreVote(@Body PollItem.VoteRequest request);
     }
 
     // ─── Buscar enquete ativa ──────────────────────────────────────
@@ -81,6 +84,39 @@ public class PollApiClient {
                     } else {
                         callback.onError(voteRes.getMessage() != null
                                 ? voteRes.getMessage() : "Erro ao registrar voto.");
+                    }
+                } else {
+                    callback.onError("HTTP " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PollItem.VoteResponse> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    // ─── Restaurar voto (após restart do servidor) ─────────────────
+    /**
+     * Reenvia o voto do usuário após o servidor reiniciar e perder os dados.
+     * Só incrementa se o total de votos for muito baixo (sinal de restart).
+     */
+    public static void restoreVote(Context context, int pollId, String optionId,
+                                   VoteCallback callback) {
+        PollService service = getService(context);
+        PollItem.VoteRequest request = new PollItem.VoteRequest(pollId, optionId);
+        service.restoreVote(request).enqueue(new Callback<PollItem.VoteResponse>() {
+            @Override
+            public void onResponse(Call<PollItem.VoteResponse> call,
+                                   Response<PollItem.VoteResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    PollItem.VoteResponse voteRes = response.body();
+                    if (voteRes.isSuccess() && voteRes.getPoll() != null) {
+                        callback.onSuccess(voteRes.getPoll());
+                    } else {
+                        callback.onError(voteRes.getMessage() != null
+                                ? voteRes.getMessage() : "Erro ao restaurar voto.");
                     }
                 } else {
                     callback.onError("HTTP " + response.code());
