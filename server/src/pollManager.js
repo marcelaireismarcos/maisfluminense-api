@@ -10,12 +10,12 @@ const path = require('path');
 const DATA_FILE = path.join(__dirname, '..', 'data', 'polls.json');
 
 // ─── Enquetes padrão (criadas na primeira execução) ──────────────
-// ─── Votos de seed (para sobreviver a restart do Render free tier) ─
-// O Render free tier NÃO persiste arquivos no disco entre reinícios.
-// Sempre que o servidor reinicia, os votos zeram. Seedamos alguns votos
-// para a enquete nunca aparecer com 0%.
-// Estes votos são meramente ilustrativos — votos reais de usuários
-// se acumulam em cima deles.
+// ─── SEM votos de seed ──────────────────────────────────────────
+// Todas as opções começam com 0 votos. Percentuais só aparecem
+// quando usuários reais votam.
+// Se o servidor reiniciar (Render free tier não persiste disco),
+// os votos reais são perdidos. O mecanismo restoreVote no Android
+// reenvia o voto do usuário ao detectar totalVotes <= 5.
 function getDefaultPolls() {
   const now = new Date().toISOString();
   return [
@@ -23,10 +23,10 @@ function getDefaultPolls() {
       id: 1,
       question: 'Qual contratação você mais quer para o Fluminense?',
       options: [
-        { id: 'a', text: 'Gabriel Barbosa (Gabigol)',  votes: 4 },
-        { id: 'b', text: 'Arrascaeta',                  votes: 2 },
-        { id: 'c', text: 'Pedro (Flamengo)',             votes: 1 },
-        { id: 'd', text: 'Nenhum desses',                votes: 1 },
+        { id: 'a', text: 'Gabriel Barbosa (Gabigol)',  votes: 0 },
+        { id: 'b', text: 'Arrascaeta',                  votes: 0 },
+        { id: 'c', text: 'Pedro (Flamengo)',             votes: 0 },
+        { id: 'd', text: 'Nenhum desses',                votes: 0 },
       ],
       active:    true,
       createdAt: now,
@@ -35,11 +35,11 @@ function getDefaultPolls() {
       id: 2,
       question: 'Qual o maior ídolo da história do Fluminense?',
       options: [
-        { id: 'a', text: 'Fred',               votes: 3 },
-        { id: 'b', text: 'Castilho',            votes: 1 },
-        { id: 'c', text: 'Assis',               votes: 1 },
-        { id: 'd', text: 'Conca',               votes: 2 },
-        { id: 'e', text: 'Telê Santana',        votes: 1 },
+        { id: 'a', text: 'Fred',               votes: 0 },
+        { id: 'b', text: 'Castilho',            votes: 0 },
+        { id: 'c', text: 'Assis',               votes: 0 },
+        { id: 'd', text: 'Conca',               votes: 0 },
+        { id: 'e', text: 'Telê Santana',        votes: 0 },
       ],
       active:    false,
       createdAt: now,
@@ -48,10 +48,10 @@ function getDefaultPolls() {
       id: 3,
       question: 'O Fluminense vai ser campeão brasileiro em 2026?',
       options: [
-        { id: 'a', text: 'Sim, com certeza!',  votes: 5 },
-        { id: 'b', text: 'Vai brigar pelo título', votes: 2 },
-        { id: 'c', text: 'Vai ficar no G-4',       votes: 1 },
-        { id: 'd', text: 'Vai ficar no meio',      votes: 1 },
+        { id: 'a', text: 'Sim, com certeza!',  votes: 0 },
+        { id: 'b', text: 'Vai brigar pelo título', votes: 0 },
+        { id: 'c', text: 'Vai ficar no G-4',       votes: 0 },
+        { id: 'd', text: 'Vai ficar no meio',      votes: 0 },
         { id: 'e', text: 'Infelizmente não',    votes: 0 },
       ],
       active:    false,
@@ -76,7 +76,7 @@ function load() {
     } else {
       polls = getDefaultPolls();
       save();
-      console.log('[pollManager] Enquetes padrão criadas (com seed de votos)');
+      console.log('[pollManager] Enquetes padrão criadas (0 votos — aguardando votos reais)');
     }
   } catch (err) {
     console.error('[pollManager] Erro ao carregar:', err.message);
@@ -222,6 +222,21 @@ function getAllPolls() {
   });
 }
 
+/**
+ * Reseta todos os votos da enquete ativa para 0.
+ * Útil quando o servidor tem dados de seed ou corrompidos.
+ */
+function resetActivePoll() {
+  const active = polls.find(p => p.active);
+  if (!active) {
+    return { success: false, message: 'Nenhuma enquete ativa para resetar.' };
+  }
+  active.options.forEach(o => { o.votes = 0; });
+  save();
+  console.log('[pollManager] Votos da enquete ativa resetados para 0');
+  return { success: true, message: 'Votos resetados com sucesso!' };
+}
+
 /** Ativa uma enquete e desativa as demais */
 function activatePoll(pollId) {
   const found = polls.find(p => p.id === pollId);
@@ -234,4 +249,4 @@ function activatePoll(pollId) {
 // ─── Inicializar ────────────────────────────────────────────────
 load();
 
-module.exports = { getActivePoll, vote, restoreVote, getAllPolls, activatePoll };
+module.exports = { getActivePoll, vote, restoreVote, getAllPolls, activatePoll, resetActivePoll };

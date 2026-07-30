@@ -228,6 +228,12 @@ app.post('/enquetes/restaurar-voto', (req, res) => {
   res.json(result);
 });
 
+/** POST /enquetes/reset — Reseta todos os votos da enquete ativa */
+app.post('/enquetes/reset', (req, res) => {
+  const result = pollManager.resetActivePoll();
+  res.json(result);
+});
+
 /** POST /enquetes/ativar — Ativa uma enquete pelo ID (admin) */
 app.post('/enquetes/ativar', (req, res) => {
   const { pollId } = req.body;
