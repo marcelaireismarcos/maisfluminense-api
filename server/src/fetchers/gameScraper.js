@@ -98,9 +98,11 @@ async function scrapePlacarFutebol() {
     }
 
     // Timestamp
+    // O placardefutebol mostra horários no fuso BRT (UTC-3, Brasil não usa horário de verão desde 2019)
+    // Sem o offset, o JavaScript interpreta como UTC, gerando timestamps 3h adiantados
     let timestamp = 0;
     if (dateStr && timeStr) {
-      timestamp = Math.floor(new Date(`${dateStr}T${timeStr}:00`).getTime() / 1000);
+      timestamp = Math.floor(new Date(`${dateStr}T${timeStr}:00-03:00`).getTime() / 1000);
     }
 
     // Mapa de competições para normalizar o nome
