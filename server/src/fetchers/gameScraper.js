@@ -72,23 +72,52 @@ async function scrapePlacarFutebol() {
     const awayName  = card.find('.match__lg_card--at-name').text().trim();
     const dateTimeRaw = card.find('.match__lg_card--datetime').text().trim();
 
+    // Escudos — o placardefutebol exibe o <img> com a URL do escudo de cada time
+    let homeLogo = card.find('.match__lg_card--ht-logo img').attr('src') || '';
+    let awayLogo = card.find('.match__lg_card--at-logo img').attr('src') || '';
+    // Normaliza URLs protocol-relative (//...) para https:
+    if (homeLogo.startsWith('//')) homeLogo = 'https:' + homeLogo;
+    if (awayLogo.startsWith('//')) awayLogo = 'https:' + awayLogo;
+
     // Verifica se Fluminense está envolvido
     const homeIsFlu = /fluminense/i.test(homeName);
     const awayIsFlu = /fluminense/i.test(awayName);
     if (!homeIsFlu && !awayIsFlu) return;
 
-    // Extrai data e horário do texto "SÁB, 15/08\n16:30"
+    // Extrai data e horário do texto "SÁB, 15/08\n16:30" ou "amanhã\n17:30"
     let dateStr = '';
     let timeStr = '';
     const lines = dateTimeRaw.split('\n').map(l => l.trim()).filter(l => l);
 
+    // Hoje/amanhã no fuso do Brasil (UTC-3) — o placardefutebol usa essas palavras
+    // para o jogo mais próximo. O servidor roda em UTC, então calculamos em BRT.
+    const brtNow = Date.now() - 3 * 60 * 60 * 1000;
+    const nowBrt = new Date(brtNow);
+    const curYear = nowBrt.getUTCFullYear();
+    const curMonth = nowBrt.getUTCMonth() + 1;
+
     for (const line of lines) {
-      // Procura padrão dd/mm
+      const lower = line.toLowerCase();
+
+      // Data relativa: "amanhã" (ou variação sem acento) → dia seguinte
+      if (lower.includes('amanhã') || lower.includes('amanha')) {
+        const t = new Date(brtNow + 24 * 60 * 60 * 1000);
+        dateStr = `${t.getUTCFullYear()}-${String(t.getUTCMonth() + 1).padStart(2, '0')}-${String(t.getUTCDate()).padStart(2, '0')}`;
+      }
+      // Data relativa: "hoje" → dia atual
+      else if (lower.includes('hoje')) {
+        const t = new Date(brtNow);
+        dateStr = `${t.getUTCFullYear()}-${String(t.getUTCMonth() + 1).padStart(2, '0')}-${String(t.getUTCDate()).padStart(2, '0')}`;
+      }
+
+      // Procura padrão dd/mm (ano dinâmico: jogo com mês menor que o atual é do ano seguinte)
       const dMatch = line.match(/(\d{1,2})\/(\d{1,2})/);
       if (dMatch) {
         const day = dMatch[1].padStart(2, '0');
         const month = dMatch[2].padStart(2, '0');
-        dateStr = `2026-${month}-${day}`;
+        let year = curYear;
+        if (parseInt(month, 10) < curMonth) year += 1;
+        dateStr = `${year}-${month}-${day}`;
       }
       // Procura horário hh:mm
       const tMatch = line.match(/(\d{1,2}:\d{2})/);
@@ -122,6 +151,8 @@ async function scrapePlacarFutebol() {
       source: 'placardefutebol',
       homeTeam: homeName,
       awayTeam: awayName,
+      homeLogo: homeLogo,
+      awayLogo: awayLogo,
       competition: competition,
       round: '',
       venue: '',
