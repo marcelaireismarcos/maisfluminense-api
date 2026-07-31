@@ -9,6 +9,16 @@ const path = require('path');
 
 const DATA_FILE = path.join(__dirname, '..', 'data', 'polls.json');
 
+// ─── Vida útil da enquete: 30 horas ─────────────────────────────
+const POLL_LIFETIME_MS = 30 * 60 * 60 * 1000;
+
+/** Verifica se uma enquete já expirou (mais de 30h desde a criação) */
+function isExpired(poll) {
+  if (!poll || !poll.createdAt) return false;
+  const created = new Date(poll.createdAt).getTime();
+  return Date.now() - created > POLL_LIFETIME_MS;
+}
+
 // ─── Enquetes padrão (criadas na primeira execução) ──────────────
 // ─── SEM votos de seed ──────────────────────────────────────────
 // Todas as opções começam com 0 votos. Percentuais só aparecem
@@ -102,6 +112,14 @@ function getActivePoll() {
   const active = polls.find(p => p.active);
   if (!active) return null;
 
+  // Expiração automática: enquete ativa há mais de 30h é desativada
+  if (isExpired(active)) {
+    active.active = false;
+    save();
+    console.log(`[pollManager] Enquete #${active.id} expirada (30h).`);
+    return null;
+  }
+
   // Retorna cópia com totais calculados
   const total = active.options.reduce((sum, o) => sum + o.votes, 0);
   return {
@@ -128,6 +146,14 @@ function vote(pollId, optionId) {
   const poll = polls.find(p => p.id === pollId && p.active);
   if (!poll) {
     return { success: false, message: 'Enquete não encontrada ou inativa.' };
+  }
+
+  // Expiração automática: não aceita votos em enquete expirada
+  if (isExpired(poll)) {
+    poll.active = false;
+    save();
+    console.log(`[pollManager] Voto recusado — enquete #${poll.id} expirada.`);
+    return { success: false, message: 'Enquete encerrada.' };
   }
 
   const option = poll.options.find(o => o.id === optionId);
@@ -166,6 +192,14 @@ function restoreVote(pollId, optionId) {
   const poll = polls.find(p => p.id === pollId && p.active);
   if (!poll) {
     return { success: false, message: 'Enquete não encontrada ou inativa.' };
+  }
+
+  // Expiração automática: não restaura votos em enquete expirada
+  if (isExpired(poll)) {
+    poll.active = false;
+    save();
+    console.log(`[pollManager] Restauração recusada — enquete #${poll.id} expirada.`);
+    return { success: false, message: 'Enquete encerrada.' };
   }
 
   const option = poll.options.find(o => o.id === optionId);
@@ -218,6 +252,7 @@ function getAllPolls() {
       })),
       totalVotes: total,
       createdAt:  p.createdAt,
+      expired:    isExpired(p),
     };
   });
 }
@@ -237,13 +272,15 @@ function resetActivePoll() {
   return { success: true, message: 'Votos resetados com sucesso!' };
 }
 
-/** Ativa uma enquete e desativa as demais */
+/** Ativa uma enquete e desativa as demais (reinicia as 30h de validade) */
 function activatePoll(pollId) {
   const found = polls.find(p => p.id === pollId);
   if (!found) return { success: false, message: 'Enquete não encontrada.' };
   polls.forEach(p => { p.active = (p.id === pollId); });
+  // Reinicia o relógio de 30h ao ativar
+  found.createdAt = new Date().toISOString();
   save();
-  return { success: true, message: `Enquete #${pollId} ativada.` };
+  return { success: true, message: `Enquete #${pollId} ativada (30h de votação).` };
 }
 
 // ─── Inicializar ────────────────────────────────────────────────
