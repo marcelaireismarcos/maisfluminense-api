@@ -116,6 +116,69 @@ Para atualizar o servidor (adicionar fontes, corrigir bugs):
 2. `git add . && git commit -m "descrição" && git push`
 3. O Render faz o redeploy automático em ~1 minuto
 
+## Enquetes da Torcida — persistência no MySQL (multi-app)
+
+As enquetes são armazenadas no **seu próprio banco MySQL** (Umbler), não no
+filesystem do Render (que é efêmero no plano free e apagava os votos a cada
+restart/redeploy). O histórico de enquetes encerradas também fica salvo no banco.
+
+### Multi-app: um banco para vários apps
+
+O mesmo banco serve **vários aplicativos**, cada um com suas enquetes isoladas:
+
+- Tabela **`apps`**: um registro por app (`slug` único, ex.: `maisfluminense`).
+- Coluna **`app_id`** em `enquetes`: isola as enquetes de cada app.
+
+Para escolher o app em qualquer endpoint de enquete, use:
+
+```
+?app=meuapp           (query string)
+X-App-Id: meuapp      (header HTTP)
+```
+
+Se o app não existir ainda, ele é **registrado automaticamente** no primeiro
+uso. Sem parâmetro, assume `maisfluminense` — ou seja, o app Android atual
+continua funcionando **sem nenhuma mudança**.
+
+Variáveis de ambiente (valores padrão apontam para a conexão Umbler já usada
+na pasta `php/`):
+
+| Variável | Default | Descrição |
+|---|---|---|
+| `DB_HOST` | `mysql741.umbler.com` | Host do MySQL |
+| `DB_PORT` | `3306` | Porta do MySQL |
+| `DB_USER` | `vikkynsnorth` | Usuário |
+| `DB_PASS` | `yUZu4Q*6.t` | Senha |
+| `DB_NAME` | `vikkynsnorth` | Banco de dados |
+
+Na primeira execução, as tabelas `apps`, `enquetes` e `enquetes_opcoes` são
+criadas automaticamente, o app padrão `maisfluminense` é registrado e os dados
+do `polls.json` antigo são migrados (se existirem).
+
+### Opcional — criar as tabelas manualmente
+
+Se preferir deixar o banco pronto antes do deploy (sem depender da criação
+automática), rode o script **`php/enquetes_tabelas.sql`** no phpMyAdmin da
+Umbler (aba SQL). Ele é idempotente (`IF NOT EXISTS` + migração da coluna
+`app_id`), então pode ser executado quantas vezes quiser sem apagar dados.
+
+### Endpoints de enquete
+
+```
+GET  /enquetes/ativa        — enquete ativa do app (usado pelo app)
+POST /enquetes/votar        — registrar voto { pollId, optionId }
+POST /enquetes/restaurar-voto — re-enviar voto após restart
+GET  /enquetes/todas        — todas do app (ativas + encerradas) com resultados
+GET  /enquetes/:id          — uma enquete específica do app com resultados
+POST /enquetes/criar        — criar { question, options[], active? }
+POST /enquetes/ativar       — ativar { pollId } (reinicia as 30h)
+POST /enquetes/encerrar     — encerrar { pollId }
+POST /enquetes/reset        — zerar votos da enquete ativa do app
+```
+
+Exemplo multi-app: `GET /enquetes/ativa?app=maisnautico` retorna a enquete
+ativa do app "Mais Náutico", totalmente separada do "Mais Fluminense".
+
 ## Importante — Plano Gratuito do Render
 
 O plano gratuito "hiberna" o servidor após 15 minutos sem uso.

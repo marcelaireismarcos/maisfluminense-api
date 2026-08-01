@@ -171,40 +171,74 @@ app.get('/outras-noticias', async (req, res) => {
 });
 
 // ══════════════════════════════════════════════
-// ENQUETES DA TORCIDA
+// ENQUETES DA TORCIDA (multi-app)
 // ══════════════════════════════════════════════
 
-/** GET /enquetes/ativa — Retorna a enquete ativa */
-app.get('/enquetes/ativa', (req, res) => {
-  const poll = pollManager.getActivePoll();
-  if (!poll) {
-    return res.status(404).json({ error: 'Nenhuma enquete ativa no momento.' });
+/**
+ * Identifica o app da requisição: query ?app=slug ou header X-App-Id.
+ * Default: 'maisfluminense' (app atual — sem mudança para o Android).
+ */
+function resolveAppSlug(req) {
+  const fromQuery = req.query && req.query.app;
+  const fromHeader = req.headers && req.headers['x-app-id'];
+  const slug = fromQuery || fromHeader || 'maisfluminense';
+  return String(slug).trim();
+}
+
+/** Resolve o appId numérico (registra o app automaticamente se for novo) */
+async function appIdFrom(req) {
+  return pollManager.resolveAppId(resolveAppSlug(req));
+}
+
+/** GET /enquetes/ativa — Retorna a enquete ativa do app */
+app.get('/enquetes/ativa', async (req, res) => {
+  try {
+    const appId = await appIdFrom(req);
+    const poll = await pollManager.getActivePoll(appId);
+    if (!poll) {
+      return res.status(404).json({ error: 'Nenhuma enquete ativa no momento.' });
+    }
+    res.json(poll);
+  } catch (err) {
+    console.error('[enquetes/ativa] Erro:', err.message);
+    res.status(500).json({ error: 'Erro interno ao consultar enquete.' });
   }
-  res.json(poll);
 });
 
 /**
  * POST /enquetes/votar — Registra um voto
  * Body: { pollId: number, optionId: string }
  */
-app.post('/enquetes/votar', (req, res) => {
-  const { pollId, optionId } = req.body;
+app.post('/enquetes/votar', async (req, res) => {
+  try {
+    const { pollId, optionId } = req.body;
 
-  if (!pollId || !optionId) {
-    return res.status(400).json({ success: false, message: 'pollId e optionId são obrigatórios.' });
+    if (!pollId || !optionId) {
+      return res.status(400).json({ success: false, message: 'pollId e optionId são obrigatórios.' });
+    }
+
+    const appId = await appIdFrom(req);
+    const result = await pollManager.vote(Number(pollId), optionId, appId);
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+
+    res.json(result);
+  } catch (err) {
+    console.error('[enquetes/votar] Erro:', err.message);
+    res.status(500).json({ success: false, message: 'Erro interno ao registrar voto.' });
   }
-
-  const result = pollManager.vote(Number(pollId), optionId);
-  if (!result.success) {
-    return res.status(400).json(result);
-  }
-
-  res.json(result);
 });
 
-/** GET /enquetes/todas — Lista todas as enquetes (debug/admin) */
-app.get('/enquetes/todas', (req, res) => {
-  res.json(pollManager.getAllPolls());
+/** GET /enquetes/todas — Lista todas as enquetes do app (debug/admin) */
+app.get('/enquetes/todas', async (req, res) => {
+  try {
+    const appId = await appIdFrom(req);
+    res.json(await pollManager.getAllPolls(appId));
+  } catch (err) {
+    console.error('[enquetes/todas] Erro:', err.message);
+    res.status(500).json({ error: 'Erro interno ao listar enquetes.' });
+  }
 });
 
 /**
@@ -213,35 +247,106 @@ app.get('/enquetes/todas', (req, res) => {
  * Diferença do /votar: só incrementa se o total de votos for muito baixo
  * (sinal de que o servidor reiniciou e perdeu os dados).
  */
-app.post('/enquetes/restaurar-voto', (req, res) => {
-  const { pollId, optionId } = req.body;
+app.post('/enquetes/restaurar-voto', async (req, res) => {
+  try {
+    const { pollId, optionId } = req.body;
 
-  if (!pollId || !optionId) {
-    return res.status(400).json({ success: false, message: 'pollId e optionId são obrigatórios.' });
+    if (!pollId || !optionId) {
+      return res.status(400).json({ success: false, message: 'pollId e optionId são obrigatórios.' });
+    }
+
+    const appId = await appIdFrom(req);
+    const result = await pollManager.restoreVote(Number(pollId), optionId, appId);
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+
+    res.json(result);
+  } catch (err) {
+    console.error('[enquetes/restaurar-voto] Erro:', err.message);
+    res.status(500).json({ success: false, message: 'Erro interno ao restaurar voto.' });
   }
-
-  const result = pollManager.restoreVote(Number(pollId), optionId);
-  if (!result.success) {
-    return res.status(400).json(result);
-  }
-
-  res.json(result);
 });
 
-/** POST /enquetes/reset — Reseta todos os votos da enquete ativa */
-app.post('/enquetes/reset', (req, res) => {
-  const result = pollManager.resetActivePoll();
-  res.json(result);
+/** POST /enquetes/reset — Reseta todos os votos da enquete ativa do app */
+app.post('/enquetes/reset', async (req, res) => {
+  try {
+    const appId = await appIdFrom(req);
+    const result = await pollManager.resetActivePoll(appId);
+    res.json(result);
+  } catch (err) {
+    console.error('[enquetes/reset] Erro:', err.message);
+    res.status(500).json({ success: false, message: 'Erro interno ao resetar votos.' });
+  }
 });
 
 /** POST /enquetes/ativar — Ativa uma enquete pelo ID (admin) */
-app.post('/enquetes/ativar', (req, res) => {
-  const { pollId } = req.body;
-  if (!pollId) {
-    return res.status(400).json({ success: false, message: 'pollId é obrigatório.' });
+app.post('/enquetes/ativar', async (req, res) => {
+  try {
+    const { pollId } = req.body;
+    if (!pollId) {
+      return res.status(400).json({ success: false, message: 'pollId é obrigatório.' });
+    }
+    const appId = await appIdFrom(req);
+    const result = await pollManager.activatePoll(Number(pollId), appId);
+    res.json(result);
+  } catch (err) {
+    console.error('[enquetes/ativar] Erro:', err.message);
+    res.status(500).json({ success: false, message: 'Erro interno ao ativar enquete.' });
   }
-  const result = pollManager.activatePoll(Number(pollId));
-  res.json(result);
+});
+
+/**
+ * POST /enquetes/criar — Cria uma nova enquete (admin)
+ * Body: { question: string, options: string[], active?: boolean }
+ */
+app.post('/enquetes/criar', async (req, res) => {
+  try {
+    const { question, options, active } = req.body || {};
+    const appId = await appIdFrom(req);
+    const result = await pollManager.createPoll(question, options, active === true, appId);
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+    res.json(result);
+  } catch (err) {
+    console.error('[enquetes/criar] Erro:', err.message);
+    res.status(500).json({ success: false, message: 'Erro interno ao criar enquete.' });
+  }
+});
+
+/** POST /enquetes/encerrar — Encerra (desativa) uma enquete pelo ID (admin) */
+app.post('/enquetes/encerrar', async (req, res) => {
+  try {
+    const { pollId } = req.body;
+    if (!pollId) {
+      return res.status(400).json({ success: false, message: 'pollId é obrigatório.' });
+    }
+    const appId = await appIdFrom(req);
+    const result = await pollManager.closePoll(Number(pollId), appId);
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+    res.json(result);
+  } catch (err) {
+    console.error('[enquetes/encerrar] Erro:', err.message);
+    res.status(500).json({ success: false, message: 'Erro interno ao encerrar enquete.' });
+  }
+});
+
+/** GET /enquetes/:id — Retorna uma enquete específica do app (ativa ou encerrada) com resultados */
+app.get('/enquetes/:id', async (req, res) => {
+  try {
+    const appId = await appIdFrom(req);
+    const poll = await pollManager.getPollById(Number(req.params.id), appId);
+    if (!poll) {
+      return res.status(404).json({ error: 'Enquete não encontrada.' });
+    }
+    res.json(poll);
+  } catch (err) {
+    console.error('[enquetes/:id] Erro:', err.message);
+    res.status(500).json({ error: 'Erro interno ao consultar enquete.' });
+  }
 });
 
 // ══════════════════════════════════════════════
@@ -275,6 +380,29 @@ app.get('/proximo-jogo/clear-cache', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
+/**
+ * Tenta inicializar as enquetes no MySQL com retries INDEFINIDOS (banco pode
+ * acordar a qualquer momento — spin-up, manutenção, rede). Se o banco estiver
+ * fora, o servidor segue no ar (notícias/health) e as enquetes voltam sozinhas
+ * quando o banco responder, sem precisar de redeploy.
+ * Log com throttle: registra apenas a 1ª, 2ª, 4ª, 8ª... tentativa (evita spam).
+ */
+async function initPollsWithRetry(attempt = 0) {
+  try {
+    await pollManager.init();
+    console.log('[startup] Enquetes inicializadas no MySQL.');
+  } catch (err) {
+    if (attempt <= 1 || (attempt & (attempt - 1)) === 0) {
+      console.error(`[startup] Enquetes ainda sem banco (tentativa ${attempt + 1}):`, err.message);
+    }
+    setTimeout(() => initPollsWithRetry(attempt + 1), 60 * 1000);
+  }
+}
+
+// Sobe o servidor imediatamente (health check, notícias, outros endpoints).
+// A inicialização das enquetes roda em paralelo com retries automáticos.
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`API na porta ${PORT}`);
 });
+initPollsWithRetry();
