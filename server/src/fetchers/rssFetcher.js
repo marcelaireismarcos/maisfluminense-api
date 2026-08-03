@@ -99,9 +99,105 @@ const SOURCES = [
   },
 ];
 
-const KEYWORDS = ['fluminense', 'flu', 'tricolor carioca', 'ec fluminense',
+const KEYWORDS = ['fluminense', 'flu', 'tricolor carioca',
   'fluminense fc', 'nense', 'laranjeiras', 'tricolor das laranjeiras',
   'fluminense futebol', 'fluminense fc', 'fluzão', 'flusao'];
+
+// ─── Filtros de qualidade (mesmos do app) ─────────────────────
+// Nome explícito de OUTROS clubes chamados "Fluminense" (Bahia, Piauí, etc.)
+// que NÃO são o Fluminense Football Club do Rio de Janeiro.
+const OTHER_CLUB_MARKERS = [
+  'fluminense de feira', 'fluminense da feira', 'fluminense feira',
+  'flu de feira', 'fluminense-ba', 'fluminense/ba',
+  'fluminense do piauí', 'fluminense do piaui', 'fluminense de piauí',
+  'fluminense de piaui', 'fluminense-pi', 'fluminense de salvador',
+  'fluminense salvador', 'fluminense esporte clube', 'fluminense ec',
+  'ec fluminense'
+];
+
+// Competições/estados onde só existe OUTRO "Fluminense" (o do RJ nunca joga).
+// Só excluem quando o texto NÃO tem termo específico do clube do Rio — evita
+// derrubar notícia do Flu-RJ que só MENCIONA a competição de passagem.
+const OTHER_CLUB_COMPETITION_MARKERS = [
+  'feira de santana', 'campeonato baiano', 'baianão', 'baianao',
+  'campeonato piauiense', 'copa do nordeste'
+];
+
+// Termos que identificam o Fluminense do Rio de Janeiro.
+const RIO_SPECIFIC_TERMS = [
+  'carioca', 'brasileirão', 'brasileirao', 'libertadores',
+  'sul-americana', 'maracanã', 'maracana', 'laranjeiras',
+  'tricolor carioca', 'série a', 'serie a', 'copa do brasil'
+];
+
+// Domínios duvidosos / irrelevantes + redes sociais (não abrem no WebView)
+const DUBIOUS_DOMAINS = [
+  'deolhonacidade.net', 'jornalgrandebahia.com.br', 'radiomaringa.com.br',
+  'muitainformacao.com.br', 'bahia.ba', 'isc.ufba.br', 'esporte.ce.gov.br',
+  'instagram.com', 'facebook.com', 'twitter.com', 'x.com', 'tiktok.com'
+];
+
+/** Extrai o host (domínio) de uma URL. */
+function extractHost(url) {
+  const m = String(url || '').match(/^https?:\/\/([^/]+)/i);
+  if (!m) return '';
+  let host = m[1];
+  const colon = host.indexOf(':');
+  if (colon >= 0) host = host.substring(0, colon);
+  return host.toLowerCase();
+}
+
+/** true se a notícia é de OUTRO clube chamado Fluminense (não o do RJ) */
+function isOtherFluminense(text) {
+  const lower = String(text || '').toLowerCase();
+  // 1. Nome explícito de outro clube "Fluminense" → sempre exclui
+  if (OTHER_CLUB_MARKERS.some(function (m) { return lower.includes(m); })) return true;
+  // 2. Competição/estado de outro clube → exclui só se não há termo do Flu-RJ
+  const hasRioTerm = RIO_SPECIFIC_TERMS.some(function (t) { return lower.includes(t); });
+  if (!hasRioTerm && OTHER_CLUB_COMPETITION_MARKERS.some(function (m) { return lower.includes(m); })) {
+    return true;
+  }
+  return false;
+}
+
+/** true se o link é duvidoso / não resolve / não abre como artigo */
+function isDubiousLink(link) {
+  const lower = String(link || '').toLowerCase();
+  if (!lower) return true;
+  if (lower.includes('news.google.com')) return true;
+  const host = extractHost(link);
+  if (!host) return false;
+  return DUBIOUS_DOMAINS.some(function (d) {
+    return host === d || host.endsWith('.' + d);
+  });
+}
+
+/**
+ * Resolve links do Google News RSS (base64 no path) para a URL original
+ * do artigo. Links não resolvidos (news.google.com/...) costumam não abrir.
+ */
+function resolveGoogleNewsLink(link) {
+  if (!link || !link.includes('news.google.com')) return link;
+  const m = String(link).match(/\/articles\/([A-Za-z0-9_-]+)/);
+  if (!m) return link;
+  try {
+    let enc = m[1].replace(/-/g, '+').replace(/_/g, '/');
+    while (enc.length % 4) enc += '=';
+    const decoded = Buffer.from(enc, 'base64').toString('utf-8');
+    const urlMatches = decoded.match(/https?:\/\/[^\s"'<>]+/g) || [];
+    for (let i = 0; i < urlMatches.length; i++) {
+      const candidate = urlMatches[i].replace(/[.,;)\]]+$/, '');
+      // Mesma regra do GoogleNewsUrlResolver (app): pula news.google.com e
+      // páginas de busca do Google — só aceita URL de artigo de publisher
+      if (candidate.startsWith('http')
+          && !candidate.includes('news.google.com')
+          && !candidate.includes('google.com/search')) {
+        return candidate;
+      }
+    }
+  } catch (e) {}
+  return link;
+}
 
 // ─── fetchAll ──────────────────────────────────────────────────
 async function fetchAll() {
@@ -153,6 +249,9 @@ async function fetchOne(source) {
     const combined = rawTitle + ' ' + (entry.contentSnippet || '');
     if (source.filter && !isRelevant(combined)) continue;
 
+    // ─── Filtros de qualidade: outros "Fluminense" + links duvidosos ───
+    if (isOtherFluminense(combined)) continue;
+
     // Google News: "Título - Nome da Fonte"
     let title      = rawTitle;
     let sourceName = source.name;
@@ -162,7 +261,9 @@ async function fetchOne(source) {
       sourceName = rawTitle.substring(idx + 3).trim();
     }
 
-    const link  = entry.link || entry.guid || '';
+    // Link — resolve o redirect do Google News para a URL original
+    const link = resolveGoogleNewsLink(entry.link || entry.guid || '');
+    if (isDubiousLink(link)) continue;
     const image = extractImageFromEntry(entry);
 
     items.push({
